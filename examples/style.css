@@ -1,0 +1,88 @@
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box; }
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+  display: block; }
+
+body {
+  line-height: 1; }
+
+ol, ul {
+  list-style: none; }
+
+blockquote, q {
+  quotes: none; }
+
+blockquote:before, blockquote:after {
+  content: '';
+  content: none; }
+
+q:before, q:after {
+  content: '';
+  content: none; }
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0; }
+
+input, button {
+  padding: 0;
+  margin: 0;
+  border: none; }
+  input:focus, button:focus {
+    outline: none; }
+
+header {
+  height: 50px;
+  background: rgba(100, 102, 31, 0.85); }
+
+.debug {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  font-size: 20px;
+  z-index: 1; }
+
+.back-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat; }
+
+.scroll-parallax {
+  position: relative;
+  overflow: hidden; }
+  .scroll-parallax .parallax-inner {
+    position: absolute;
+    left: 0;
+    width: 100%; }
+
+.mouseParallax-section {
+  position: relative;
+  overflow: hidden; }
+  .mouseParallax-section .parallax-inner {
+    position: absolute; }
+
+.section1 {
+  min-height: 400px; }
+
+.section2 {
+  min-height: 300px;
+  background: #60aeff; }
+
+.section3 {
+  min-height: 500px; }
+
+.section4 {
+  min-height: 600px; }
+
+/*# sourceMappingURL=style.css.map */

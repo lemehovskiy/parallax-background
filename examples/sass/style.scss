@@ -1,0 +1,60 @@
+@import "_reset.scss";
+
+header {
+  height: 50px;
+  background: rgba(100, 102, 31, 0.85);
+}
+
+
+.debug {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  font-size: 20px;
+  z-index: 1;
+
+}
+
+.back-img {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.scroll-parallax {
+  position: relative;
+  overflow: hidden;
+
+  .parallax-inner {
+    position: absolute;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.mouseParallax-section {
+  position: relative;
+  overflow: hidden;
+
+  .parallax-inner {
+    position: absolute;
+  }
+}
+
+
+.section1 {
+  min-height: 400px;
+}
+
+.section2 {
+  min-height: 300px;
+  background: #60aeff;
+}
+
+.section3 {
+  min-height: 500px;
+}
+
+.section4 {
+  min-height: 600px;
+}
