@@ -11,7 +11,7 @@
                     type: 'scroll',
                     zoom: 30,
                     animateDuration: 0.5,
-                    perspective: 1200,
+                    perspective: 1000,
                     gyroAnimationType: 'shift'
                 }, options);
 
@@ -120,15 +120,18 @@
 
                     this.each(function () {
 
-                        var animateDuration = settings.animateDuration;
-                        var zoom = settings.zoom;
-                        var shift = zoom / 2;
-                        var $thisSection = $(this);
-                        var $thisInner = $thisSection.find('.parallax-inner');
-                        var innerSize = shift * 2 + 100;
-                        var coef = innerSize / 100;
+                        let animateDuration = settings.animateDuration;
+                        let zoom = settings.zoom;
+                        let shift = zoom / 2;
+                        let $thisSection = $(this);
+                        let $thisInner = $thisSection.find('.parallax-inner');
 
-                        var lastGamma, lastBeta, rangeGamma = 0, rangeBeta = 0;
+
+                        let innerSize = shift * 2 + 100;
+                        let coef = innerSize / 100;
+
+                        let lastGamma, lastBeta, rangeGamma = 0, rangeBeta = 0;
+
 
                         $thisInner.css({
                             'top': -shift + '%',
@@ -139,12 +142,19 @@
                         });
 
 
+                        if (settings.gyroAnimationType == 'rotate') {
+                            TweenLite.set($thisSection, {perspective: settings.perspective});
+                            TweenLite.set($thisInner, {transformStyle: "preserve-3d"});
+                        }
+
+
                         window.addEventListener("deviceorientation", function (e) {
 
 
-                            var roundedGamma = Math.round(e.gamma);
-                            var roundedBeta = Math.round(e.beta);
-                            var x, y;
+                            let roundedGamma = Math.round(e.gamma),
+                                roundedBeta = Math.round(e.beta),
+                                x,
+                                y;
 
                             $('.debug .gamma').text(roundedGamma);
                             $('.debug .beta').text(roundedBeta);
@@ -166,8 +176,8 @@
                             lastGamma = roundedGamma;
                             lastBeta = roundedBeta;
 
-                            var gamaInPercent = (100 / 15) * rangeGamma;
-                            var betaInPercent = (100 / 15) * rangeBeta;
+                            let gamaInPercent = (100 / 15) * rangeGamma,
+                                betaInPercent = (100 / 15) * rangeBeta;
 
 
                             //TODO Organize orientation statement
@@ -192,8 +202,6 @@
                             }
 
                             else if (settings.gyroAnimationType == 'rotate') {
-                                TweenLite.set($thisSection, {perspective:800});
-                                TweenLite.set($thisInner, {transformStyle:"preserve-3d"});
                                 TweenLite.to($thisInner, animateDuration, {rotationX: -y + '%', rotationY: -x + '%'});
                             }
 
@@ -201,31 +209,45 @@
                         }, true);
 
 
-                        $($thisSection).on("mousemove", function (e) {
+                        $thisSection.on("mousemove", function (e) {
 
-                            var offset = $thisSection.offset();
+                            let offset = $thisSection.offset();
 
-                            var sectionWidth = $thisSection.outerWidth();
-                            var sectionHeight = $thisSection.outerHeight();
+                            let sectionWidth = $thisSection.outerWidth();
+                            let sectionHeight = $thisSection.outerHeight();
 
-                            var pageX = e.pageX - offset.left - ($thisSection.width() * 0.5);
-                            var pageY = e.pageY - offset.top - ($thisSection.height() * 0.5);
+                            let pageX = e.pageX - offset.left - ($thisSection.width() * 0.5);
+                            let pageY = e.pageY - offset.top - ($thisSection.height() * 0.5);
 
-                            var cursorPercentPositionX = pageX / (sectionWidth / 100) * 2;
-                            var cursorPercentPositionY = pageY / (sectionHeight / 100) * 2;
+                            let cursorPercentPositionX = pageX / (sectionWidth / 100) * 2;
+                            let cursorPercentPositionY = pageY / (sectionHeight / 100) * 2;
 
-                            var x = shift / coef / 100 * cursorPercentPositionX;
-                            var y = shift / coef / 100 * cursorPercentPositionY;
+                            let x = shift / coef / 100 * cursorPercentPositionX;
+                            let y = shift / coef / 100 * cursorPercentPositionY;
 
+
+                            $('.debug .x').text(x);
+                            $('.debug .y').text(y);
 
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, {x: x + '%', y: y + '%'});
                             }
 
                             else if (settings.gyroAnimationType == 'rotate') {
-                                TweenLite.set($thisSection, {perspective: settings.perspective});
-                                TweenLite.set($thisInner, {transformStyle:"preserve-3d"});
                                 TweenLite.to($thisInner, animateDuration, {rotationX: y + '%', rotationY: -x + '%'});
+                            }
+
+                        });
+
+
+                        $thisSection.mouseleave(function() {
+
+                            if (settings.gyroAnimationType == 'shift') {
+                                TweenLite.to($thisInner, animateDuration, {x: 0, y: 0});
+                            }
+
+                            else if (settings.gyroAnimationType == 'rotate') {
+                                TweenLite.to($thisInner, animateDuration, {rotationX: 0, rotationY: 0});
                             }
 
                         });
@@ -240,9 +262,9 @@
         } else if (typeof method === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('There is no method with the name '+ method + ', for jQuery.parallax');
+            $.error('There is no method with the name ' + method + ', for jQuery.parallax');
         }
     };
-    
+
 
 })(jQuery);

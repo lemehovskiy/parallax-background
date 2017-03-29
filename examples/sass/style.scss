@@ -42,6 +42,11 @@ header {
 
 .section3 {
   min-height: 500px;
+
+  .parallax-inner {
+    transform-origin: center;
+  }
+
 }
 
 .section4 {

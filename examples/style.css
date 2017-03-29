@@ -73,6 +73,10 @@ header {
 
 .section3 {
   min-height: 500px; }
+  .section3 .parallax-inner {
+    -webkit-transform-origin: center;
+    -ms-transform-origin: center;
+    transform-origin: center; }
 
 .section4 {
   min-height: 600px; }

@@ -14,7 +14,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     type: 'scroll',
                     zoom: 30,
                     animateDuration: 0.5,
-                    perspective: 1200,
+                    perspective: 1000,
                     gyroAnimationType: 'shift'
                 }, options);
 
@@ -114,11 +114,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         var shift = zoom / 2;
                         var $thisSection = $(this);
                         var $thisInner = $thisSection.find('.parallax-inner');
+
                         var innerSize = shift * 2 + 100;
                         var coef = innerSize / 100;
 
-                        var lastGamma,
-                            lastBeta,
+                        var lastGamma = void 0,
+                            lastBeta = void 0,
                             rangeGamma = 0,
                             rangeBeta = 0;
 
@@ -130,11 +131,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                         });
 
+                        if (settings.gyroAnimationType == 'rotate') {
+                            TweenLite.set($thisSection, { perspective: settings.perspective });
+                            TweenLite.set($thisInner, { transformStyle: "preserve-3d" });
+                        }
+
                         window.addEventListener("deviceorientation", function (e) {
 
-                            var roundedGamma = Math.round(e.gamma);
-                            var roundedBeta = Math.round(e.beta);
-                            var x, y;
+                            var roundedGamma = Math.round(e.gamma),
+                                roundedBeta = Math.round(e.beta),
+                                x = void 0,
+                                y = void 0;
 
                             $('.debug .gamma').text(roundedGamma);
                             $('.debug .beta').text(roundedBeta);
@@ -154,8 +161,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             lastGamma = roundedGamma;
                             lastBeta = roundedBeta;
 
-                            var gamaInPercent = 100 / 15 * rangeGamma;
-                            var betaInPercent = 100 / 15 * rangeBeta;
+                            var gamaInPercent = 100 / 15 * rangeGamma,
+                                betaInPercent = 100 / 15 * rangeBeta;
 
                             //TODO Organize orientation statement
 
@@ -173,13 +180,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, { x: x + '%', y: y + '%' });
                             } else if (settings.gyroAnimationType == 'rotate') {
-                                TweenLite.set($thisSection, { perspective: 800 });
-                                TweenLite.set($thisInner, { transformStyle: "preserve-3d" });
                                 TweenLite.to($thisInner, animateDuration, { rotationX: -y + '%', rotationY: -x + '%' });
                             }
                         }, true);
 
-                        $($thisSection).on("mousemove", function (e) {
+                        $thisSection.on("mousemove", function (e) {
 
                             var offset = $thisSection.offset();
 
@@ -195,12 +200,22 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             var x = shift / coef / 100 * cursorPercentPositionX;
                             var y = shift / coef / 100 * cursorPercentPositionY;
 
+                            $('.debug .x').text(x);
+                            $('.debug .y').text(y);
+
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, { x: x + '%', y: y + '%' });
                             } else if (settings.gyroAnimationType == 'rotate') {
-                                TweenLite.set($thisSection, { perspective: settings.perspective });
-                                TweenLite.set($thisInner, { transformStyle: "preserve-3d" });
                                 TweenLite.to($thisInner, animateDuration, { rotationX: y + '%', rotationY: -x + '%' });
+                            }
+                        });
+
+                        $thisSection.mouseleave(function () {
+
+                            if (settings.gyroAnimationType == 'shift') {
+                                TweenLite.to($thisInner, animateDuration, { x: 0, y: 0 });
+                            } else if (settings.gyroAnimationType == 'rotate') {
+                                TweenLite.to($thisInner, animateDuration, { rotationX: 0, rotationY: 0 });
                             }
                         });
                     });
