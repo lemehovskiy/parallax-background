@@ -1,5 +1,29 @@
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+(function ($) {
+
+    $.fn.parallax = function (method) {
+
+        var methods = {
+
+            init: function init(options) {
+
+                this.each(function () {});
+            }
+        };
+
+        if (methods[method]) {
+            return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+        } else if ((typeof method === 'undefined' ? 'undefined' : _typeof(method)) === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        } else {
+            $.error('Метод с именем ' + method + ' не существует для jQuery.tooltip');
+        }
+    };
+})(jQuery);
+
 //************************************
 // PARALLAX SCROLL
 //************************************
@@ -81,6 +105,23 @@ parallaxMouseScroll({
 
 function parallaxMouseMove(settings) {
 
+    var ww = void 0,
+        wh = void 0,
+        deviceOrientation = void 0;
+
+    $(window).on('load resize', function () {
+        ww = window.innerWidth;
+        wh = window.innerHeight;
+
+        if (ww > wh) {
+            deviceOrientation = 'landscape';
+        } else {
+            deviceOrientation = 'portrait';
+        }
+
+        $('.debug .orientation').text(deviceOrientation);
+    });
+
     $(settings.parallaxSelector).each(function () {
 
         var $thisSection = $(this);
@@ -110,42 +151,11 @@ function parallaxMouseMove(settings) {
 
         });
 
-        // Event listener to determine change (horizontal/portrait)
-        window.addEventListener("orientationchange", updateOrientation);
-
-        function updateOrientation(e) {
-            switch (e.orientation) {
-                case 0:
-                    alert('1');
-                    break;
-
-                case -90:
-                    // Do your thing
-                    alert('2');
-                    break;
-
-                case 90:
-                    alert('3');
-                    // Do your thing
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
-        // window.addEventListener("orientationchange", function(e) {
-        //
-        //     // console.log(screen.orientation.type);
-        //     $('.debug .beta').text(screen.orientation.type);
-        //
-        // }, false);
-
-
         window.addEventListener("deviceorientation", function (e) {
 
             var roundedGamma = Math.round(e.gamma);
             var roundedBeta = Math.round(e.beta);
+            var x, y;
 
             $('.debug .gamma').text(roundedGamma);
             $('.debug .beta').text(roundedBeta);
@@ -168,8 +178,15 @@ function parallaxMouseMove(settings) {
             var gamaInPercent = 100 / 15 * rangeGamma;
             var betaInPercent = 100 / 15 * rangeBeta;
 
-            var x = shift / coef / 100 * gamaInPercent;
-            var y = shift / coef / 100 * betaInPercent;
+            //TODO Organize orientation statement
+
+            if (deviceOrientation == 'landscape') {
+                x = shift / coef / 100 * betaInPercent;
+                y = shift / coef / 100 * gamaInPercent;
+            } else {
+                x = shift / coef / 100 * gamaInPercent;
+                y = shift / coef / 100 * betaInPercent * -1;
+            }
 
             $('.debug .x').text(x);
             $('.debug .y').text(y);
