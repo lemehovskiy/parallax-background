@@ -21,18 +21,7 @@ header {
   background-repeat: no-repeat;
 }
 
-.scroll-parallax {
-  position: relative;
-  overflow: hidden;
-
-  .parallax-inner {
-    position: absolute;
-    left: 0;
-    width: 100%;
-  }
-}
-
-.mouseParallax-section {
+.parallax-section {
   position: relative;
   overflow: hidden;
 

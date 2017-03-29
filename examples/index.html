@@ -38,7 +38,7 @@
 <header></header>
 
 
-<div class="section1 scroll-parallax">
+<div class="section1 parallax-section parallax-scroll">
     <div class="back-img parallax-inner"
          style="background-image: url('imgs/img1.jpg')">
 
@@ -51,7 +51,7 @@
 </div>
 
 
-<div class="section3 mouseParallax-section">
+<div class="section3 parallax-section parallax-gyro">
     <div class="back-img parallax-inner"
          style="background-image: url('imgs/img2.jpg')">
 
@@ -59,18 +59,33 @@
 </div>
 
 
-<!--<div class="section4 mouseParallax-section">-->
-    <!--<div class="back-img parallax-inner"-->
-         <!--style="background-image: url('imgs/img1.jpg')">-->
-
-    <!--</div>-->
-<!--</div>-->
 
 
 <script src="js/jquery-3.2.0.min.js"></script>
 <script src="js/TweenMax.min.js"></script>
-<!--<script src="js/TimelineLite.min.js"></script>-->
 <script src="../build/parallax.js"></script>
+
+
+<script>
+
+    $('.parallax-scroll').parallax({
+        animateDuration: 0
+    })
+
+    $('.parallax-gyro').parallax({
+        animateDuration: 0.5,
+        type: 'gyro'
+    })
+
+
+
+//    $('.parallax-scroll').parallax({
+//        animateDuration: 0.5
+//    })
+
+
+
+</script>
 
 </body>
 </html>

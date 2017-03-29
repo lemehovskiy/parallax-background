@@ -58,18 +58,10 @@ header {
   background-position: center;
   background-repeat: no-repeat; }
 
-.scroll-parallax {
+.parallax-section {
   position: relative;
   overflow: hidden; }
-  .scroll-parallax .parallax-inner {
-    position: absolute;
-    left: 0;
-    width: 100%; }
-
-.mouseParallax-section {
-  position: relative;
-  overflow: hidden; }
-  .mouseParallax-section .parallax-inner {
+  .parallax-section .parallax-inner {
     position: absolute; }
 
 .section1 {
