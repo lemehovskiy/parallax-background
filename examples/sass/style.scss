@@ -31,24 +31,23 @@ header {
 }
 
 
-.section1 {
-  min-height: 400px;
+.parallax-section {
+  min-height: 600px;
+
+  .background-video {
+
+    video {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+
+    }
+  }
 }
 
-.section2 {
+
+.spacer {
   min-height: 300px;
   background: #60aeff;
-}
-
-.section3 {
-  min-height: 500px;
-
-  .parallax-inner {
-    transform-origin: center;
-  }
-
-}
-
-.section4 {
-  min-height: 600px;
 }

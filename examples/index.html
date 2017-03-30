@@ -13,32 +13,32 @@
 <body>
 
 
-<div class="debug">
-    <div>
-        Gamma
-        <span class="gamma"></span>
-    </div>
-    <div>
-        Beta
-        <span class="beta"></span>
-    </div>
+<!--<div class="debug">-->
+    <!--<div>-->
+        <!--Gamma-->
+        <!--<span class="gamma"></span>-->
+    <!--</div>-->
+    <!--<div>-->
+        <!--Beta-->
+        <!--<span class="beta"></span>-->
+    <!--</div>-->
 
-    <div>
-        X
-        <span class="x"></span>
-    </div>
-    <div>
-        Y
-        <span class="y"></span>
-    </div>
+    <!--<div>-->
+        <!--X-->
+        <!--<span class="x"></span>-->
+    <!--</div>-->
+    <!--<div>-->
+        <!--Y-->
+        <!--<span class="y"></span>-->
+    <!--</div>-->
 
-    <div class="orientation"></div>
-</div>
+    <!--<div class="orientation"></div>-->
+<!--</div>-->
 
 <header></header>
 
 
-<div class="section1 parallax-section parallax-scroll">
+<div class="parallax-section parallax-scroll">
     <div class="back-img parallax-inner"
          style="background-image: url('imgs/img1.jpg')">
 
@@ -46,12 +46,10 @@
 </div>
 
 
-<div class="section2">
-
-</div>
+<div class="spacer"></div>
 
 
-<div class="section3 parallax-section parallax-gyro">
+<div class="parallax-section parallax-gyro-rotate">
     <div class="back-img parallax-inner"
          style="background-image: url('imgs/img2.jpg')">
 
@@ -60,37 +58,107 @@
 
 
 
-<div class="section2">
+<div class="spacer"></div>
 
+
+<div class="parallax-section parallax-gyro-shift">
+    <div class="back-img parallax-inner"
+         style="background-image: url('imgs/img3.jpg')">
+
+    </div>
 </div>
+
+
+<div class="spacer"></div>
+
+
+<div class="parallax-section parallax-gyro-rotate">
+    <div class="back-img background-video parallax-inner"
+         style="background-image: url('imgs/img3.jpg')" data-ratio-x="16" data-ratio-y="9">
+
+        <video autoplay muted loop>
+            <source src="http://techslides.com/demos/sample-videos/small.mp4" type="video/mp4">
+        </video>
+        
+    </div>
+</div>
+
+<div class="spacer"></div>
 
 
 
 <script src="js/jquery-3.2.0.min.js"></script>
-<script src="js/TweenMax.min.js"></script>
-<script src="../build/parallax.js"></script>
+<script src="js/CSSPlugin.min.js"></script>
+<script src="js/TweenLite.min.js"></script>
+
+<script src="../build/parallax.min.js"></script>
 
 
 <script>
 
     $('.parallax-scroll').parallax({
-        animateDuration: 0
-    })
+        animateDuration: 0,
+        zoom: 60
+    });
 
-    $('.parallax-gyro').parallax({
+    $('.parallax-gyro-rotate').parallax({
         animateDuration: 0.5,
         type: 'gyro',
         gyroAnimationType: 'rotate',
         zoom: 40
-    })
+    });
+
+    $('.parallax-gyro-shift').parallax({
+        animateDuration: 0.5,
+        type: 'gyro',
+        gyroAnimationType: 'shift',
+        zoom: 15
+    });
 
 
 
-//    $('.parallax-scroll').parallax({
-//        animateDuration: 0.5
-//    })
+
+    //************************************
+    // RESIZE VIDEO
+    //************************************
+
+    function vidRescale() {
+
+        $('.background-video').each(function () {
+
+            var _width = $(this).width();
+            var _height = $(this).height();
+
+            var _ratio_x = $(this).data('ratio-x');
+            var _ratio_y = $(this).data('ratio-y');
+
+            var _video = $(this).find('video');
+
+            if (_width / _height > _ratio_x / _ratio_y) {
+
+                _video.css({
+                    "width": _width,
+                    "height": _width / _ratio_y * _ratio_x
+                });
 
 
+            } else {
+
+                _video.css({
+                    "width": _height / _ratio_y * _ratio_x,
+                    "height": _height
+                });
+            }
+
+        });
+
+    }
+
+    $(window).on('resize load', function () {
+
+        vidRescale();
+
+    });
 
 </script>
 

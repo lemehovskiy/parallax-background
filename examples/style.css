@@ -1,5 +1,4 @@
 * {
-  -webkit-box-sizing: border-box;
   box-sizing: border-box; }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
@@ -64,21 +63,18 @@ header {
   .parallax-section .parallax-inner {
     position: absolute; }
 
-.section1 {
-  min-height: 400px; }
+.parallax-section {
+  min-height: 600px; }
+  .parallax-section .background-video video {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); }
 
-.section2 {
+.spacer {
   min-height: 300px;
   background: #60aeff; }
-
-.section3 {
-  min-height: 500px; }
-  .section3 .parallax-inner {
-    -webkit-transform-origin: center;
-    -ms-transform-origin: center;
-    transform-origin: center; }
-
-.section4 {
-  min-height: 600px; }
 
 /*# sourceMappingURL=style.css.map */

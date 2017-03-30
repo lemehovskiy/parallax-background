@@ -20,12 +20,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                 if (settings.type == 'scroll') {
 
-                    var scrollTop = void 0,
-                        windowHeight = void 0,
-                        triggerPosition = void 0;
-                    var zoom = settings.zoom;
-                    var shift = zoom / 2;
-                    var innerHeight = zoom + 100;
+                    var scrollTop = 0,
+                        windowHeight = 0,
+                        triggerPosition = 0,
+                        zoom = settings.zoom,
+                        shift = zoom / 2,
+                        innerHeight = zoom + 100;
 
                     $(window).on('scroll load', function () {
                         scrollTop = $(window).scrollTop();
@@ -36,18 +36,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                     this.each(function () {
 
-                        var _section = $(this);
-                        var sectionHeight = _section.outerHeight();
-
-                        var _sectionInner = _section.find('.parallax-inner');
-
-                        var animationTriggerStart = void 0,
-                            animationTriggerEnd = void 0;
-
-                        var offset = void 0,
-                            animationLength = void 0;
-
-                        var coef = innerHeight / 100;
+                        var _section = $(this),
+                            sectionHeight = _section.outerHeight(),
+                            _sectionInner = _section.find('.parallax-inner'),
+                            animationTriggerStart = 0,
+                            animationTriggerEnd = 0,
+                            offset = 0,
+                            animationLength = 0,
+                            coef = innerHeight / 100;
 
                         _sectionInner.css({
                             'top': -shift + '%',
@@ -90,9 +86,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     });
                 } else if (settings.type == 'gyro') {
 
-                    var ww = void 0,
-                        wh = void 0,
-                        deviceOrientation = void 0;
+                    var ww = 0,
+                        wh = 0,
+                        deviceOrientation = 0;
 
                     $(window).on('load resize', function () {
                         ww = window.innerWidth;
@@ -104,22 +100,20 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             deviceOrientation = 'portrait';
                         }
 
-                        $('.debug .orientation').text(deviceOrientation);
+                        // $('.debug .orientation').text(deviceOrientation);
                     });
 
                     this.each(function () {
 
-                        var animateDuration = settings.animateDuration;
-                        var zoom = settings.zoom;
-                        var shift = zoom / 2;
-                        var $thisSection = $(this);
-                        var $thisInner = $thisSection.find('.parallax-inner');
-
-                        var innerSize = shift * 2 + 100;
-                        var coef = innerSize / 100;
-
-                        var lastGamma = void 0,
-                            lastBeta = void 0,
+                        var animateDuration = settings.animateDuration,
+                            zoom = settings.zoom,
+                            shift = zoom / 2,
+                            $thisSection = $(this),
+                            $thisInner = $thisSection.find('.parallax-inner'),
+                            innerSize = shift * 2 + 100,
+                            coef = innerSize / 100,
+                            lastGamma = 0,
+                            lastBeta = 0,
                             rangeGamma = 0,
                             rangeBeta = 0;
 
@@ -140,11 +134,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                             var roundedGamma = Math.round(e.gamma),
                                 roundedBeta = Math.round(e.beta),
-                                x = void 0,
-                                y = void 0;
+                                x = 0,
+                                y = 0;
 
-                            $('.debug .gamma').text(roundedGamma);
-                            $('.debug .beta').text(roundedBeta);
+                            // $('.debug .gamma').text(roundedGamma);
+                            // $('.debug .beta').text(roundedBeta);
 
                             if (roundedGamma > lastGamma && rangeGamma < 15) {
                                 rangeGamma++;
@@ -174,8 +168,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                 y = shift / coef / 100 * betaInPercent * -1;
                             }
 
-                            $('.debug .x').text(x);
-                            $('.debug .y').text(y);
+                            // $('.debug .x').text(x);
+                            // $('.debug .y').text(y);
+
 
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, { x: x + '%', y: y + '%' });
@@ -186,22 +181,18 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                         $thisSection.on("mousemove", function (e) {
 
-                            var offset = $thisSection.offset();
+                            var offset = $thisSection.offset(),
+                                sectionWidth = $thisSection.outerWidth(),
+                                sectionHeight = $thisSection.outerHeight(),
+                                pageX = e.pageX - offset.left - $thisSection.width() * 0.5,
+                                pageY = e.pageY - offset.top - $thisSection.height() * 0.5,
+                                cursorPercentPositionX = pageX / (sectionWidth / 100) * 2,
+                                cursorPercentPositionY = pageY / (sectionHeight / 100) * 2,
+                                x = shift / coef / 100 * cursorPercentPositionX,
+                                y = shift / coef / 100 * cursorPercentPositionY;
 
-                            var sectionWidth = $thisSection.outerWidth();
-                            var sectionHeight = $thisSection.outerHeight();
-
-                            var pageX = e.pageX - offset.left - $thisSection.width() * 0.5;
-                            var pageY = e.pageY - offset.top - $thisSection.height() * 0.5;
-
-                            var cursorPercentPositionX = pageX / (sectionWidth / 100) * 2;
-                            var cursorPercentPositionY = pageY / (sectionHeight / 100) * 2;
-
-                            var x = shift / coef / 100 * cursorPercentPositionX;
-                            var y = shift / coef / 100 * cursorPercentPositionY;
-
-                            $('.debug .x').text(x);
-                            $('.debug .y').text(y);
+                            // $('.debug .x').text(x);
+                            // $('.debug .y').text(y);
 
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, { x: x + '%', y: y + '%' });
@@ -213,7 +204,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         $thisSection.mouseleave(function () {
 
                             if (settings.gyroAnimationType == 'shift') {
-                                TweenLite.to($thisInner, animateDuration, { x: 0, y: 0 });
+
+                                TweenLite.to($thisInner, animateDuration, { x: '0%', y: '0%' });
                             } else if (settings.gyroAnimationType == 'rotate') {
                                 TweenLite.to($thisInner, animateDuration, { rotationX: 0, rotationY: 0 });
                             }
@@ -232,4 +224,3 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         }
     };
 })(jQuery);
-//# sourceMappingURL=parallax.js.map

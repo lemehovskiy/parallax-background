@@ -16,12 +16,15 @@
                 }, options);
 
 
+
                 if (settings.type == 'scroll') {
 
-                    let scrollTop, windowHeight, triggerPosition;
-                    let zoom = settings.zoom;
-                    let shift = zoom / 2;
-                    let innerHeight = zoom + 100;
+                    let scrollTop = 0,
+                        windowHeight = 0,
+                        triggerPosition = 0,
+                        zoom = settings.zoom,
+                        shift = zoom / 2,
+                        innerHeight = zoom + 100;
 
 
                     $(window).on('scroll load', function () {
@@ -35,16 +38,14 @@
                     this.each(function () {
 
 
-                        let _section = $(this);
-                        let sectionHeight = _section.outerHeight();
-
-                        let _sectionInner = _section.find('.parallax-inner');
-
-                        let animationTriggerStart, animationTriggerEnd;
-
-                        let offset, animationLength;
-
-                        let coef = innerHeight / 100;
+                        let _section = $(this),
+                            sectionHeight = _section.outerHeight(),
+                            _sectionInner = _section.find('.parallax-inner'),
+                            animationTriggerStart = 0,
+                            animationTriggerEnd = 0,
+                            offset = 0,
+                            animationLength = 0,
+                            coef = innerHeight / 100;
 
 
                         _sectionInner.css({
@@ -99,7 +100,9 @@
 
                 else if (settings.type == 'gyro') {
 
-                    let ww, wh, deviceOrientation;
+                    let ww = 0,
+                        wh = 0,
+                        deviceOrientation = 0;
 
                     $(window).on('load resize', function () {
                         ww = window.innerWidth;
@@ -114,23 +117,25 @@
                         }
 
 
-                        $('.debug .orientation').text(deviceOrientation);
+                        // $('.debug .orientation').text(deviceOrientation);
 
                     });
 
                     this.each(function () {
 
-                        let animateDuration = settings.animateDuration;
-                        let zoom = settings.zoom;
-                        let shift = zoom / 2;
-                        let $thisSection = $(this);
-                        let $thisInner = $thisSection.find('.parallax-inner');
+                        let animateDuration = settings.animateDuration,
+                            zoom = settings.zoom,
+                            shift = zoom / 2,
+                            $thisSection = $(this),
+                            $thisInner = $thisSection.find('.parallax-inner'),
 
+                            innerSize = shift * 2 + 100,
+                            coef = innerSize / 100,
 
-                        let innerSize = shift * 2 + 100;
-                        let coef = innerSize / 100;
-
-                        let lastGamma, lastBeta, rangeGamma = 0, rangeBeta = 0;
+                            lastGamma = 0,
+                            lastBeta = 0,
+                            rangeGamma = 0,
+                            rangeBeta = 0;
 
 
                         $thisInner.css({
@@ -153,11 +158,11 @@
 
                             let roundedGamma = Math.round(e.gamma),
                                 roundedBeta = Math.round(e.beta),
-                                x,
-                                y;
+                                x = 0,
+                                y = 0;
 
-                            $('.debug .gamma').text(roundedGamma);
-                            $('.debug .beta').text(roundedBeta);
+                            // $('.debug .gamma').text(roundedGamma);
+                            // $('.debug .beta').text(roundedBeta);
 
                             if (roundedGamma > lastGamma && rangeGamma < 15) {
                                 rangeGamma++;
@@ -193,8 +198,8 @@
                             }
 
 
-                            $('.debug .x').text(x);
-                            $('.debug .y').text(y);
+                            // $('.debug .x').text(x);
+                            // $('.debug .y').text(y);
 
 
                             if (settings.gyroAnimationType == 'shift') {
@@ -211,23 +216,23 @@
 
                         $thisSection.on("mousemove", function (e) {
 
-                            let offset = $thisSection.offset();
+                            let offset = $thisSection.offset(),
 
-                            let sectionWidth = $thisSection.outerWidth();
-                            let sectionHeight = $thisSection.outerHeight();
+                                sectionWidth = $thisSection.outerWidth(),
+                                sectionHeight = $thisSection.outerHeight(),
 
-                            let pageX = e.pageX - offset.left - ($thisSection.width() * 0.5);
-                            let pageY = e.pageY - offset.top - ($thisSection.height() * 0.5);
+                                pageX = e.pageX - offset.left - ($thisSection.width() * 0.5),
+                                pageY = e.pageY - offset.top - ($thisSection.height() * 0.5),
 
-                            let cursorPercentPositionX = pageX / (sectionWidth / 100) * 2;
-                            let cursorPercentPositionY = pageY / (sectionHeight / 100) * 2;
+                                cursorPercentPositionX = pageX / (sectionWidth / 100) * 2,
+                                cursorPercentPositionY = pageY / (sectionHeight / 100) * 2,
 
-                            let x = shift / coef / 100 * cursorPercentPositionX;
-                            let y = shift / coef / 100 * cursorPercentPositionY;
+                                x = shift / coef / 100 * cursorPercentPositionX,
+                                y = shift / coef / 100 * cursorPercentPositionY;
 
 
-                            $('.debug .x').text(x);
-                            $('.debug .y').text(y);
+                            // $('.debug .x').text(x);
+                            // $('.debug .y').text(y);
 
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, {x: x + '%', y: y + '%'});
@@ -240,10 +245,11 @@
                         });
 
 
-                        $thisSection.mouseleave(function() {
+                        $thisSection.mouseleave(function () {
 
                             if (settings.gyroAnimationType == 'shift') {
-                                TweenLite.to($thisInner, animateDuration, {x: 0, y: 0});
+
+                                TweenLite.to($thisInner, animateDuration, {x: '0%', y: '0%'});
                             }
 
                             else if (settings.gyroAnimationType == 'rotate') {

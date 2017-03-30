@@ -1,6 +1,5 @@
 var 	gulp         = require('gulp'),
     autoprefixer = require('gulp-autoprefixer'),
-    minifycss    = require('gulp-uglifycss'),
     filter       = require('gulp-filter'),
     uglify       = require('gulp-uglify'),
     rename       = require('gulp-rename'),
@@ -12,7 +11,6 @@ var 	gulp         = require('gulp'),
     clone = require('gulp-clone'),
     sourcemaps   = require('gulp-sourcemaps'),
     merge = require('merge-stream'),
-    importCss = require('gulp-import-css'),
     babel = require('gulp-babel');
 
 
@@ -29,7 +27,7 @@ gulp.task('styles', function () {
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(autoprefixer({
-            browsers: ['last 10 versions'],
+            browsers: ['last 4 versions'],
             cascade: false
         }))
 
@@ -51,7 +49,6 @@ gulp.task('scripts', function() {
         gulp.src('./src/parallax.es6')
     )
 
-
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
         }))
@@ -61,10 +58,10 @@ gulp.task('scripts', function() {
             presets: ['es2015']
         }))
 
-        .pipe(sourcemaps.init())
-        .pipe(concat('parallax.js'))
-        // .pipe(uglify())
-        // .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./build'))
+        
+        .pipe(uglify())
+        .pipe(rename({ suffix: '.min' }))
         .pipe(sourcemaps.write('./'))
         .pipe(gulp.dest('./build'))
         .pipe(notify("Custom script task complete"))
