@@ -13,9 +13,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                 var settings = $.extend({
                     type: 'scroll',
                     zoom: 30,
-                    animateDuration: 0.5,
-                    perspective: 1000,
-                    gyroAnimationType: 'shift'
+                    gyroPerspective: 1000,
+                    gyroAnimationType: 'shift',
+                    gyroAnimateDuration: 0.5
                 }, options);
 
                 if (settings.type == 'scroll') {
@@ -75,9 +75,8 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                                 var y = shift / coef / 100 * centerPercentShift;
 
-                                TweenLite.to(_sectionInner, settings.animateDuration, {
-                                    y: y + '%',
-                                    ease: Linear.easeNone
+                                _sectionInner.css({
+                                    "transform": "translate3d(0," + y + "%, 0)"
                                 });
                             } else {
                                 _section.removeClass('active');
@@ -99,13 +98,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         } else {
                             deviceOrientation = 'portrait';
                         }
-
-                        // $('.debug .orientation').text(deviceOrientation);
                     });
 
                     this.each(function () {
 
-                        var animateDuration = settings.animateDuration,
+                        var animateDuration = settings.gyroAnimateDuration,
                             zoom = settings.zoom,
                             shift = zoom / 2,
                             $thisSection = $(this),
@@ -126,7 +123,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                         });
 
                         if (settings.gyroAnimationType == 'rotate') {
-                            TweenLite.set($thisSection, { perspective: settings.perspective });
+                            TweenLite.set($thisSection, { perspective: settings.gyroPerspective });
                             TweenLite.set($thisInner, { transformStyle: "preserve-3d" });
                         }
 

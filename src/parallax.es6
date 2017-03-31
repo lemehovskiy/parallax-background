@@ -10,9 +10,9 @@
                 let settings = $.extend({
                     type: 'scroll',
                     zoom: 30,
-                    animateDuration: 0.5,
-                    perspective: 1000,
-                    gyroAnimationType: 'shift'
+                    gyroPerspective: 1000,
+                    gyroAnimationType: 'shift',
+                    gyroAnimateDuration: 0.5
                 }, options);
 
 
@@ -81,11 +81,9 @@
                                 let y = shift / coef / 100 * centerPercentShift;
 
 
-                                TweenLite.to(_sectionInner, settings.animateDuration, {
-                                    y: y + '%',
-                                    ease: Linear.easeNone
+                                _sectionInner.css({
+                                    "transform": "translate3d(0," + y + "%, 0)"
                                 });
-
                             }
 
                             else {
@@ -117,13 +115,11 @@
                         }
 
 
-                        // $('.debug .orientation').text(deviceOrientation);
-
                     });
 
                     this.each(function () {
 
-                        let animateDuration = settings.animateDuration,
+                        let animateDuration = settings.gyroAnimateDuration,
                             zoom = settings.zoom,
                             shift = zoom / 2,
                             $thisSection = $(this),
@@ -148,7 +144,7 @@
 
 
                         if (settings.gyroAnimationType == 'rotate') {
-                            TweenLite.set($thisSection, {perspective: settings.perspective});
+                            TweenLite.set($thisSection, {perspective: settings.gyroPerspective});
                             TweenLite.set($thisInner, {transformStyle: "preserve-3d"});
                         }
 
@@ -236,6 +232,7 @@
 
                             if (settings.gyroAnimationType == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, {x: x + '%', y: y + '%'});
+                                
                             }
 
                             else if (settings.gyroAnimationType == 'rotate') {
