@@ -98,6 +98,17 @@
 
                 else if (settings.type == 'gyro') {
 
+
+                    if (typeof TweenLite === 'undefined') {
+                        console.warn('TweenMax or TweenLite library is required... https://greensock.com/tweenlite');
+                        return;
+                    }
+
+                    if (typeof CSSPlugin === 'undefined') {
+                        console.warn('CSSPlugin in required... https://greensock.com/CSSPlugin');
+                        return;
+                    }
+
                     let ww = 0,
                         wh = 0,
                         deviceOrientation = 0;
