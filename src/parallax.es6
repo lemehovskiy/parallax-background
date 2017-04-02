@@ -10,7 +10,7 @@
                 let settings = $.extend({
                     type: 'scroll',
                     zoom: 30,
-                    gyroPerspective: 1000,
+                    gyroPerspective: 1400,
                     gyroAnimationType: 'shift',
                     gyroAnimateDuration: 0.5
                 }, options);
@@ -269,6 +269,7 @@
                 }
             }
         };
+
 
 
         if (methods[method]) {

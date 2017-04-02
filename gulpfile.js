@@ -20,7 +20,7 @@ gulp.task('default', ['watch']);
 
 gulp.task('styles', function () {
 
-    var source = gulp.src('./examples/sass/style.scss')
+    var source = gulp.src('./demo/sass/style.scss')
         .pipe(plumber({
             errorHandler: notify.onError("Error: <%= error.message %>")
         }))
@@ -35,7 +35,7 @@ gulp.task('styles', function () {
 
     var pipe1 = source.pipe(clone())
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./examples'))
+        .pipe(gulp.dest('./demo'))
         .pipe(notify("Styles task complete"));
 
 
@@ -69,6 +69,6 @@ gulp.task('scripts', function() {
 
 // configure which files to watch and what tasks to use on file changes
 gulp.task('watch', ['styles', 'scripts'], function() {
-    gulp.watch('examples/sass/*.scss', ['styles']);
+    gulp.watch('demo/sass/*.scss', ['styles']);
     gulp.watch('src/parallax.es6', ['scripts']);
 });
