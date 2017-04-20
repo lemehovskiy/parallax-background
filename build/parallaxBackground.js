@@ -4,7 +4,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
 (function ($) {
 
-    $.fn.parallax = function (method) {
+    $.fn.parallaxBackground = function (method) {
 
         var methods = {
 
@@ -227,7 +227,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
         } else if ((typeof method === 'undefined' ? 'undefined' : _typeof(method)) === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('There is no method with the name ' + method + ', for jQuery.parallax');
+            $.error('There is no method with the name ' + method + ', for jQuery.parallaxBackground');
         }
     };
 })(jQuery);

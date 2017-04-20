@@ -1,9 +1,10 @@
 (function ($) {
 
 
-    $.fn.parallax = function (method) {
+    $.fn.parallaxBackground = function (method) {
 
         var methods = {
+            
 
             init: function (options) {
 
@@ -277,7 +278,7 @@
         } else if (typeof method === 'object' || !method) {
             return methods.init.apply(this, arguments);
         } else {
-            $.error('There is no method with the name ' + method + ', for jQuery.parallax');
+            $.error('There is no method with the name ' + method + ', for jQuery.parallaxBackground');
         }
     };
 

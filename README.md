@@ -1,4 +1,4 @@
-# parallax
+# parallaxBackground
 
 
-<a href="https://lemehovskiy.github.io/parallax/demo/">Demo</a>
+<a href="https://lemehovskiy.github.io/parallaxBackground/demo/">Demo</a>
