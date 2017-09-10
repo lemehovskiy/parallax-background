@@ -13,7 +13,7 @@
 <body>
 
 
-<section class="section-intro full-width parallax-scroll">
+<section class="section-intro full-width parallax-demo-1">
         <div class="back-img parallax-inner"
              style="background-image: url('imgs/hs_err_pid689.jpg')">
         </div>
@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div class="img-col">
-                    <div class="img-wrap parallax-gyro-rotate">
+                    <div class="img-wrap parallax-demo-2">
                         <div class="parallax-inner back-img" style="background-image: url('imgs/pexels-photo-534327.jpg')">
 
                         </div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
                 <div class="img-col">
-                    <div class="img-wrap parallax-gyro-shift">
+                    <div class="img-wrap parallax-demo-3">
                         <div class="parallax-inner back-img" style="background-image: url('imgs/pexels-photo-534351.jpg')">
 
                         </div>
@@ -104,9 +104,35 @@
                     </div>
                 </div>
                 <div class="img-col">
-                    <div class="img-wrap parallax-scroll">
+                    <div class="img-wrap parallax-demo-4">
                         <div class="parallax-inner back-img" style="background-image: url('imgs/pexels-photo-539711.jpg')">
 
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="feature-item">
+                <div class="content-col">
+                    <div class="title">
+                        Lorem ipsum
+                    </div>
+                    <div class="desc">
+                        <p>
+                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
+                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
+                            beatae vitae dicta sunt explicabo.
+                        </p>
+                        <p>
+                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
+                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+                        </p>
+                    </div>
+                </div>
+                <div class="img-col">
+                    <div class="img-wrap parallax-demo-5">
+                        <div class="parallax-inner youtube-video-background">
+                            <div class="youtube-video" data-yt-id="57jEMZ87ND8"></div>
                         </div>
                     </div>
                 </div>
@@ -122,74 +148,95 @@
 <script src="js/TweenLite.min.js"></script>
 <script src="js/CSSPlugin.min.js"></script>
 
+<script src="js/videoBackground.min.js"></script>
+
 <script src="../build/parallaxBackground.min.js"></script>
 
 
 <script>
 
-    $('.parallax-scroll').parallaxBackground({
-        animate_duration: 0,
-        zoom: 60
+    $('.parallax-demo-1').parallaxBackground({
+        event: 'scroll',
+        animation_type: 'shift'
     });
 
-    $('.parallax-gyro-rotate').parallaxBackground({
-        animate_duration: 5,
-        type: 'gyro',
-        gyroAnimationType: 'rotate',
-        zoom: 40
+    $('.parallax-demo-2').parallaxBackground({
+        event: 'scroll',
+        animation_type: 'rotate',
+        zoom: 50,
+        rotate_perspective: 500
+
     });
 
-    $('.parallax-gyro-shift').parallaxBackground({
-        animate_duration: 5,
-        type: 'gyro',
-        gyroAnimationType: 'shift',
-        zoom: 10
+    $('.parallax-demo-3').parallaxBackground({
+        event: 'mouse_move',
+        animation_type: 'shift',
+        animate_duration: 2
+    });
+
+    $('.parallax-demo-4').parallaxBackground({
+        event: 'mouse_move',
+        animation_type: 'rotate',
+        animate_duration: 2,
+        zoom: 50
+    });
+
+    $('.parallax-demo-5').parallaxBackground({
+        event: 'scroll',
+        animation_type: 'shift',
+        animate_duration: 1,
+        zoom: 30
     });
 
 
 
 
-    //************************************
-    // RESIZE VIDEO
-    //************************************
+    //init youtube
+    var tag = document.createElement('script');
 
-    function vidRescale() {
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-        $('.background-video').each(function () {
+    var ytPlayers = [];
 
-            var _width = $(this).width();
-            var _height = $(this).height();
+    onYouTubePlayerAPIReady = function () {
 
-            var _ratio_x = $(this).data('ratio-x');
-            var _ratio_y = $(this).data('ratio-y');
-
-            var _video = $(this).find('video');
-
-            if (_width / _height > _ratio_x / _ratio_y) {
-
-                _video.css({
-                    "width": _width,
-                    "height": _width / _ratio_y * _ratio_x
-                });
+        var players = document.querySelectorAll('.youtube-video');
 
 
-            } else {
+        for (var i = 0; i < players.length; i++) {
+            var player = new YT.Player(players[i], {
+                playerVars: {
+                    'autoplay': 1,
+                    'loop': 1,
+                    'rel': 0,
+                    'showinfo': 0,
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'playlist': players[i].getAttribute("data-yt-id")
 
-                _video.css({
-                    "width": _height / _ratio_y * _ratio_x,
-                    "height": _height
-                });
-            }
+                },
+                videoId: players[i].getAttribute("data-yt-id"),
+                events: {
+                    'onReady': onPlayerReady
+                }
 
-        });
+            });
+
+            ytPlayers.push(player);
+        }
+    };
+
+    function onPlayerReady(event) {
+
+        event.target.mute();
+
+
+        //init videoBackground for youtube video
+        $('.youtube-video-background').videoBackground();
 
     }
-
-    $(window).on('resize load', function () {
-
-        vidRescale();
-
-    });
 
 </script>
 

@@ -11,141 +11,119 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
             init: function init(options) {
 
                 var settings = $.extend({
-                    type: 'scroll',
-                    zoom: 30,
-                    gyroPerspective: 1400,
-                    gyroAnimationType: 'shift',
-                    animate_duration: 0.5
+                    event: 'scroll',
+                    animation_type: 'shift',
+                    zoom: 20,
+                    rotate_perspective: 1400,
+                    animate_duration: 1
                 }, options);
 
-                if (settings.type == 'scroll') {
+                if (typeof TweenLite === 'undefined') {
+                    console.warn('TweenMax or TweenLite library is required... https://greensock.com/tweenlite');
+                    return;
+                }
 
-                    var scrollTop = 0,
-                        windowHeight = 0,
-                        triggerPosition = 0,
+                if (typeof CSSPlugin === 'undefined') {
+                    console.warn('CSSPlugin in required... https://greensock.com/CSSPlugin');
+                    return;
+                }
+
+                var ww = 0,
+                    wh = 0,
+                    deviceOrientation = '',
+                    viewport_top = 0,
+                    viewport_bottom = 0;
+
+                $(window).on('load resize', function () {
+                    ww = window.innerWidth;
+                    wh = window.innerHeight;
+
+                    if (ww > wh) {
+                        deviceOrientation = 'landscape';
+                    } else {
+                        deviceOrientation = 'portrait';
+                    }
+                });
+
+                if (settings.event == 'scroll') {
+                    $(window).on('load scroll', function () {
+
+                        viewport_top = $(window).scrollTop();
+                        viewport_bottom = viewport_top + wh;
+                    });
+                }
+
+                this.each(function () {
+
+                    var animateDuration = settings.animate_duration,
                         zoom = settings.zoom,
-                        shift = zoom / 2,
-                        innerHeight = zoom + 100;
+                        $thisSection = $(this),
+                        $thisInner = $thisSection.find('.parallax-inner'),
+                        innerSize = zoom + 100,
+                        coef = innerSize / 100,
+                        shift = zoom / 2 / coef,
+                        lastGamma = 0,
+                        lastBeta = 0,
+                        rangeGamma = 0,
+                        rangeBeta = 0;
 
-                    $(window).on('scroll load', function () {
-                        scrollTop = $(window).scrollTop();
-                        windowHeight = $(window).height();
-
-                        triggerPosition = scrollTop + windowHeight;
+                    $thisSection.css({
+                        'overflow': 'hidden'
                     });
 
-                    this.each(function () {
+                    $thisInner.css({
+                        'top': -zoom / 2 + '%',
+                        'left': -zoom / 2 + '%',
+                        'height': innerSize + '%',
+                        'width': innerSize + '%',
+                        'position': 'absolute'
 
-                        var _section = $(this),
-                            sectionHeight = _section.outerHeight(),
-                            _sectionInner = _section.find('.parallax-inner'),
-                            animationTriggerStart = 0,
-                            animationTriggerEnd = 0,
-                            offset = 0,
-                            animationLength = 0,
-                            coef = innerHeight / 100;
+                    });
 
-                        _section.css({
-                            'overflow': 'hidden'
-                        });
+                    if (settings.animation_type == 'rotate') {
+                        TweenLite.set($thisSection, { perspective: settings.rotate_perspective });
+                        TweenLite.set($thisInner, { transformStyle: "preserve-3d" });
+                    }
 
-                        _sectionInner.css({
-                            'top': -shift + '%',
-                            'left': 0,
-                            'height': innerHeight + '%',
-                            'width': '100%',
-                            'position': 'absolute'
-                        });
+                    if (settings.event == 'scroll') {
+
+                        var section_offset_top = 0,
+                            section_offset_bottom = 0,
+                            animation_progress_px = 0,
+                            animation_progress_percent = 0,
+                            section_height = 0,
+                            animation_length = 0;
 
                         $(window).on('load resize', function () {
 
-                            offset = _section.offset();
+                            section_height = $thisSection.outerHeight();
 
-                            animationTriggerStart = offset.top;
+                            section_offset_top = $thisSection.offset().top;
+                            section_offset_bottom = section_offset_top + section_height;
 
-                            animationTriggerEnd = animationTriggerStart + windowHeight;
-
-                            animationLength = animationTriggerEnd - animationTriggerStart;
+                            animation_length = section_height + wh;
                         });
 
                         $(window).on('scroll resize load', function () {
 
-                            if (triggerPosition > animationTriggerStart && triggerPosition < animationTriggerEnd + sectionHeight) {
+                            if (viewport_bottom > section_offset_top && viewport_top < section_offset_bottom) {
 
-                                _section.addClass('active');
+                                $thisSection.addClass('active');
 
-                                var centerPixelShift = triggerPosition - offset.top - animationLength * 0.5;
+                                animation_progress_px = viewport_bottom - section_offset_top - animation_length / 2;
 
-                                var centerPercentShift = centerPixelShift / (animationLength / 100) * 2;
+                                animation_progress_percent = animation_progress_px / (animation_length / 2);
 
-                                var y = shift / coef / 100 * centerPercentShift;
-
-                                _sectionInner.css({
-                                    "transform": "translate3d(0," + y + "%, 0)"
-                                });
+                                if (settings.animation_type == 'shift') {
+                                    TweenLite.to($thisInner, animateDuration, { y: shift * animation_progress_percent + '%' });
+                                } else if (settings.animation_type == 'rotate') {
+                                    TweenLite.to($thisInner, animateDuration, { rotationX: shift * animation_progress_percent + '%' });
+                                }
                             } else {
-                                _section.removeClass('active');
+                                $thisSection.removeClass('active');
                             }
                         });
-                    });
-                } else if (settings.type == 'gyro') {
-
-                    if (typeof TweenLite === 'undefined') {
-                        console.warn('TweenMax or TweenLite library is required... https://greensock.com/tweenlite');
-                        return;
-                    }
-
-                    if (typeof CSSPlugin === 'undefined') {
-                        console.warn('CSSPlugin in required... https://greensock.com/CSSPlugin');
-                        return;
-                    }
-
-                    var ww = 0,
-                        wh = 0,
-                        deviceOrientation = 0;
-
-                    $(window).on('load resize', function () {
-                        ww = window.innerWidth;
-                        wh = window.innerHeight;
-
-                        if (ww > wh) {
-                            deviceOrientation = 'landscape';
-                        } else {
-                            deviceOrientation = 'portrait';
-                        }
-                    });
-
-                    this.each(function () {
-
-                        var animateDuration = settings.animate_duration,
-                            zoom = settings.zoom,
-                            shift = zoom / 2,
-                            $thisSection = $(this),
-                            $thisInner = $thisSection.find('.parallax-inner'),
-                            innerSize = shift * 2 + 100,
-                            coef = innerSize / 100,
-                            lastGamma = 0,
-                            lastBeta = 0,
-                            rangeGamma = 0,
-                            rangeBeta = 0;
-
-                        $thisSection.css({
-                            'overflow': 'hidden'
-                        });
-
-                        $thisInner.css({
-                            'top': -shift + '%',
-                            'left': -shift + '%',
-                            'height': innerSize + '%',
-                            'width': innerSize + '%',
-                            'position': 'absolute'
-
-                        });
-
-                        if (settings.gyroAnimationType == 'rotate') {
-                            TweenLite.set($thisSection, { perspective: settings.gyroPerspective });
-                            TweenLite.set($thisInner, { transformStyle: "preserve-3d" });
-                        }
+                    } else if (settings.event == 'mouse_move') {
 
                         window.addEventListener("deviceorientation", function (e) {
 
@@ -153,9 +131,6 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                 roundedBeta = Math.round(e.beta),
                                 x = 0,
                                 y = 0;
-
-                            // $('.debug .gamma').text(roundedGamma);
-                            // $('.debug .beta').text(roundedBeta);
 
                             if (roundedGamma > lastGamma && rangeGamma < 15) {
                                 rangeGamma++;
@@ -185,13 +160,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                 y = shift / coef / 100 * betaInPercent * -1;
                             }
 
-                            // $('.debug .x').text(x);
-                            // $('.debug .y').text(y);
-
-
-                            if (settings.gyroAnimationType == 'shift') {
-                                TweenLite.to($thisInner, animateDuration, { x: x + '%', y: y + '%' });
-                            } else if (settings.gyroAnimationType == 'rotate') {
+                            if (settings.animation_type == 'shift') {
+                                TweenLite.to($thisInner, animateDuration, { x: y + '%', y: x + '%' });
+                            } else if (settings.animation_type == 'rotate') {
                                 TweenLite.to($thisInner, animateDuration, { rotationX: -y + '%', rotationY: -x + '%' });
                             }
                         }, true);
@@ -203,33 +174,31 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                                 sectionHeight = $thisSection.outerHeight(),
                                 pageX = e.pageX - offset.left - $thisSection.width() * 0.5,
                                 pageY = e.pageY - offset.top - $thisSection.height() * 0.5,
-                                cursorPercentPositionX = pageX / (sectionWidth / 100) * 2,
-                                cursorPercentPositionY = pageY / (sectionHeight / 100) * 2,
-                                x = shift / coef / 100 * cursorPercentPositionX,
-                                y = shift / coef / 100 * cursorPercentPositionY;
+                                cursorPercentPositionX = pageX / sectionWidth * 2,
+                                cursorPercentPositionY = pageY / sectionHeight * 2,
+                                x = shift * cursorPercentPositionX,
+                                y = shift * cursorPercentPositionY;
 
-                            // $('.debug .x').text(x);
-                            // $('.debug .y').text(y);
-
-                            if (settings.gyroAnimationType == 'shift') {
+                            if (settings.animation_type == 'shift') {
                                 TweenLite.to($thisInner, animateDuration, { x: x + '%', y: y + '%' });
-                            } else if (settings.gyroAnimationType == 'rotate') {
+                            } else if (settings.animation_type == 'rotate') {
                                 TweenLite.to($thisInner, animateDuration, { rotationX: y + '%', rotationY: -x + '%' });
                             }
                         });
 
                         $thisSection.mouseleave(function () {
 
-                            if (settings.gyroAnimationType == 'shift') {
+                            if (settings.animation_type == 'shift') {
 
                                 TweenLite.to($thisInner, animateDuration, { x: '0%', y: '0%' });
-                            } else if (settings.gyroAnimationType == 'rotate') {
+                            } else if (settings.animation_type == 'rotate') {
                                 TweenLite.to($thisInner, animateDuration, { rotationX: 0, rotationY: 0 });
                             }
                         });
-                    });
-                }
+                    }
+                });
             }
+            // }
         };
 
         if (methods[method]) {
