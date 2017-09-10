@@ -15,7 +15,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                     zoom: 30,
                     gyroPerspective: 1400,
                     gyroAnimationType: 'shift',
-                    gyroAnimateDuration: 0.5
+                    animate_duration: 0.5
                 }, options);
 
                 if (settings.type == 'scroll') {
@@ -45,11 +45,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             animationLength = 0,
                             coef = innerHeight / 100;
 
+                        _section.css({
+                            'overflow': 'hidden'
+                        });
+
                         _sectionInner.css({
                             'top': -shift + '%',
                             'left': 0,
                             'height': innerHeight + '%',
-                            'width': '100%'
+                            'width': '100%',
+                            'position': 'absolute'
                         });
 
                         $(window).on('load resize', function () {
@@ -112,7 +117,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
                     this.each(function () {
 
-                        var animateDuration = settings.gyroAnimateDuration,
+                        var animateDuration = settings.animate_duration,
                             zoom = settings.zoom,
                             shift = zoom / 2,
                             $thisSection = $(this),
@@ -124,11 +129,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
                             rangeGamma = 0,
                             rangeBeta = 0;
 
+                        $thisSection.css({
+                            'overflow': 'hidden'
+                        });
+
                         $thisInner.css({
                             'top': -shift + '%',
                             'left': -shift + '%',
                             'height': innerSize + '%',
-                            'width': innerSize + '%'
+                            'width': innerSize + '%',
+                            'position': 'absolute'
 
                         });
 

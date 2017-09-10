@@ -1,6 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,600');
 
 @import "_reset.scss";
+@import "mixins.scss";
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -8,25 +9,6 @@ body {
 
 }
 
-header {
-  height: 50px;
-  background: rgba(100, 102, 31, 0.85);
-}
-
-.title {
-  font-size: 30px;
-  font-weight: 700;
-  margin: 20px 0;
-}
-
-.debug {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  font-size: 20px;
-  z-index: 1;
-
-}
 
 .back-img {
   background-size: cover;
@@ -34,52 +16,30 @@ header {
   background-repeat: no-repeat;
 }
 
-.parallax-section {
-  position: relative;
-  overflow: hidden;
-  color: white;
-
-  .parallax-inner {
-    position: absolute;
-
-    &:before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-    }
-  }
-}
-
-
-.parallax-section {
-  min-height: 600px;
-
-  .background-video {
-
-    video {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-
-    }
-  }
-}
-
-
-.spacer {
-  min-height: 300px;
-  background: #60aeff;
-}
-
 .container {
-  max-width: 900px;
-  padding: 40px 30px;
   margin: auto;
   position: relative;
-  z-index: 1;
+
 }
+
+section {
+  &:not(.full-width) {
+    padding: 0 20px;
+  }
+}
+
+.rect-outer {
+  position: relative;
+  .rect-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+  }
+}
+
+
+@import "partials/section-intro";
+@import "partials/section-features-list";

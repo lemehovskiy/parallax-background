@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,600");
 * {
   box-sizing: border-box; }
 
@@ -46,61 +46,139 @@ body {
   font-family: 'Roboto', sans-serif;
   font-size: 18px; }
 
-header {
-  height: 50px;
-  background: rgba(100, 102, 31, 0.85); }
-
-.title {
-  font-size: 30px;
-  font-weight: 700;
-  margin: 20px 0; }
-
-.debug {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  font-size: 20px;
-  z-index: 1; }
-
 .back-img {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat; }
 
-.parallax-section {
+.container {
+  margin: auto;
+  position: relative; }
+
+section:not(.full-width) {
+  padding: 0 20px; }
+
+.rect-outer {
+  position: relative; }
+  .rect-outer .rect-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0; }
+
+.section-intro {
   position: relative;
-  overflow: hidden;
+  min-height: 100vh;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   color: white; }
-  .parallax-section .parallax-inner {
-    position: absolute; }
-    .parallax-section .parallax-inner:before {
+  .section-intro:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.15); }
+  .section-intro .title {
+    font-size: 50px;
+    text-transform: uppercase;
+    font-weight: 600; }
+    @media (max-width: 600px) {
+      .section-intro .title {
+        font-size: 8.33333vw; } }
+
+.section-features .container {
+  padding: 100px 0;
+  max-width: 1000px; }
+
+@media (min-width: 801px) {
+  .section-features .feature-item {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; } }
+
+.section-features .feature-item + .feature-item {
+  padding: 100px 0 0; }
+  @media (max-width: 800px) {
+    .section-features .feature-item + .feature-item {
+      padding: 70px 0 0; } }
+
+.section-features .feature-item:nth-child(3n+1) .content-col {
+  background: #A5B5AA; }
+
+.section-features .feature-item:nth-child(3n+2) .content-col {
+  background: #6C6B7A; }
+
+.section-features .feature-item:nth-child(3n+3) .content-col {
+  background: #296F8C; }
+
+@media (min-width: 801px) {
+  .section-features .feature-item:nth-child(even) {
+    -webkit-flex-direction: row-reverse;
+    -ms-flex-direction: row-reverse;
+    flex-direction: row-reverse; }
+    .section-features .feature-item:nth-child(even) .img-col .img-wrap {
+      right: auto;
+      left: 0; } }
+
+.section-features .feature-item .title {
+  font-size: 30px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px; }
+
+.section-features .feature-item .desc {
+  padding: 20px 0 0;
+  line-height: 1.3;
+  letter-spacing: .5px; }
+  .section-features .feature-item .desc p + p {
+    margin: 20px 0 0; }
+
+.section-features .feature-item .content-col {
+  color: white;
+  padding: 50px;
+  z-index: 1;
+  position: relative; }
+  @media (max-width: 800px) {
+    .section-features .feature-item .content-col {
+      padding: 30px; } }
+  @media (min-width: 801px) {
+    .section-features .feature-item .content-col {
+      width: 50%; } }
+
+.section-features .feature-item .img-col {
+  position: relative; }
+  @media (min-width: 801px) {
+    .section-features .feature-item .img-col {
+      width: 50%; } }
+  @media (max-width: 800px) {
+    .section-features .feature-item .img-col {
+      min-height: 400px; } }
+  .section-features .feature-item .img-col .img-wrap {
+    position: absolute;
+    right: 0;
+    top: -20px;
+    width: calc(100% + 40px);
+    height: calc(100% + 40px); }
+    @media (max-width: 800px) {
+      .section-features .feature-item .img-col .img-wrap {
+        right: -20px; } }
+    .section-features .feature-item .img-col .img-wrap:before {
       content: '';
       position: absolute;
       left: 0;
       top: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.5); }
-
-.parallax-section {
-  min-height: 600px; }
-  .parallax-section .background-video video {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%); }
-
-.spacer {
-  min-height: 300px;
-  background: #60aeff; }
-
-.container {
-  max-width: 900px;
-  padding: 40px 30px;
-  margin: auto;
-  position: relative;
-  z-index: 1; }
+      background: rgba(0, 0, 0, 0.15); }
 
 /*# sourceMappingURL=style.css.map */

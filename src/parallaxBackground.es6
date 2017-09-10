@@ -13,7 +13,7 @@
                     zoom: 30,
                     gyroPerspective: 1400,
                     gyroAnimationType: 'shift',
-                    gyroAnimateDuration: 0.5
+                    animate_duration: 0.5
                 }, options);
 
 
@@ -48,12 +48,16 @@
                             animationLength = 0,
                             coef = innerHeight / 100;
 
+                        _section.css({
+                            'overflow': 'hidden'
+                        });
 
                         _sectionInner.css({
                             'top': -shift + '%',
                             'left': 0,
                             'height': innerHeight + '%',
-                            'width': '100%'
+                            'width': '100%',
+                            'position': 'absolute'
                         });
 
 
@@ -131,7 +135,7 @@
 
                     this.each(function () {
 
-                        let animateDuration = settings.gyroAnimateDuration,
+                        let animateDuration = settings.animate_duration,
                             zoom = settings.zoom,
                             shift = zoom / 2,
                             $thisSection = $(this),
@@ -145,12 +149,17 @@
                             rangeGamma = 0,
                             rangeBeta = 0;
 
+                        $thisSection.css({
+                            'overflow': 'hidden'
+                        });
+
 
                         $thisInner.css({
                             'top': -shift + '%',
                             'left': -shift + '%',
                             'height': innerSize + '%',
-                            'width': innerSize + '%'
+                            'width': innerSize + '%',
+                            'position': 'absolute'
 
                         });
 

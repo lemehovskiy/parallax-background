@@ -1,0 +1,19 @@
+@mixin vw-font-size($viewport-width, $font-size, $letter-spacing: null) {
+
+  $vw-context: $viewport-width * 0.01;
+
+  @media (max-width: ($viewport-width * 1px)) {
+    font-size: (($font-size / $vw-context) * 1vw);
+
+    @if ($letter-spacing) {
+      letter-spacing: (($letter-spacing / $vw-context) * 1vw);
+    }
+
+  }
+}
+
+@mixin vw-font-normalize($viewport-width, $font-size) {
+  @media (max-width: ($viewport-width * 1px)) {
+    font-size: ($font-size * 1px);
+  }
+}
