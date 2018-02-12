@@ -8,7 +8,8 @@
     <meta name="description" content="Parallax background">
     <meta name="keywords" content="parallax background responsive jQuery plugin Greensock Gsap animation">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="build/style.css">
+    <script src="build/app.js"></script>
 
 </head>
 
@@ -16,9 +17,9 @@
 
 
 <section class="section-intro full-width parallax-demo-1">
-        <div class="back-img parallax-inner"
-             style="background-image: url('imgs/hs_err_pid689.jpg')">
-        </div>
+    <div class="back-img parallax-inner"
+         style="background-image: url('imgs/hs_err_pid689.jpg')">
+    </div>
 
     <div class="container">
         <div class="content-wrap">
@@ -146,99 +147,64 @@
 </section>
 
 
-<script src="js/jquery-3.2.0.min.js"></script>
-<script src="js/TweenLite.min.js"></script>
-<script src="js/CSSPlugin.min.js"></script>
+<!--<script src="js/jquery-3.2.0.min.js"></script>-->
+<!--<script src="js/TweenLite.min.js"></script>-->
+<!--<script src="js/CSSPlugin.min.js"></script>-->
 
-<script src="js/videoBackground.min.js"></script>
+<!--<script src="js/videoBackground.min.js"></script>-->
 
-<script src="../build/parallaxBackground.min.js"></script>
+<!--<script src="../build/parallaxBackground.min.js"></script>-->
 
 
 <script>
 
-    $('.parallax-demo-1').parallaxBackground({
-        event: 'scroll',
-        animation_type: 'shift'
-    });
 
-    $('.parallax-demo-2').parallaxBackground({
-        event: 'scroll',
-        animation_type: 'rotate',
-        zoom: 50,
-        rotate_perspective: 500
-
-    });
-
-    $('.parallax-demo-3').parallaxBackground({
-        event: 'mouse_move',
-        animation_type: 'shift',
-        animate_duration: 2
-    });
-
-    $('.parallax-demo-4').parallaxBackground({
-        event: 'mouse_move',
-        animation_type: 'rotate',
-        animate_duration: 2,
-        zoom: 50
-    });
-
-    $('.parallax-demo-5').parallaxBackground({
-        event: 'scroll',
-        animation_type: 'shift',
-        animate_duration: 1,
-        zoom: 30
-    });
-
-
-
-
-    //init youtube
-    var tag = document.createElement('script');
-
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-    var ytPlayers = [];
-
-    onYouTubePlayerAPIReady = function () {
-
-        var players = document.querySelectorAll('.youtube-video');
-
-
-        for (var i = 0; i < players.length; i++) {
-            var player = new YT.Player(players[i], {
-                playerVars: {
-                    'autoplay': 1,
-                    'loop': 1,
-                    'rel': 0,
-                    'showinfo': 0,
-                    'controls': 0,
-                    'modestbranding': 1,
-                    'playlist': players[i].getAttribute("data-yt-id")
-
-                },
-                videoId: players[i].getAttribute("data-yt-id"),
-                events: {
-                    'onReady': onPlayerReady
-                }
-
-            });
-
-            ytPlayers.push(player);
-        }
-    };
-
-    function onPlayerReady(event) {
-
-        event.target.mute();
-
-
-        //init videoBackground for youtube video
-        $('.youtube-video-background').videoBackground();
-
-    }
+//    //init youtube
+//    var tag = document.createElement('script');
+//
+//    tag.src = "https://www.youtube.com/iframe_api";
+//    var firstScriptTag = document.getElementsByTagName('script')[0];
+//    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+//
+//    var ytPlayers = [];
+//
+//    onYouTubePlayerAPIReady = function () {
+//
+//        var players = document.querySelectorAll('.youtube-video');
+//
+//
+//        for (var i = 0; i < players.length; i++) {
+//            var player = new YT.Player(players[i], {
+//                playerVars: {
+//                    'autoplay': 1,
+//                    'loop': 1,
+//                    'rel': 0,
+//                    'showinfo': 0,
+//                    'controls': 0,
+//                    'modestbranding': 1,
+//                    'playlist': players[i].getAttribute("data-yt-id")
+//
+//                },
+//                videoId: players[i].getAttribute("data-yt-id"),
+//                events: {
+//                    'onReady': onPlayerReady
+//                }
+//
+//            });
+//
+//            ytPlayers.push(player);
+//        }
+//    };
+//
+//    function onPlayerReady(event) {
+//
+//        event.target.mute();
+//
+//
+//        //init videoBackground for youtube video
+//        $('.youtube-video-background').videoBackground();
+//
+//    }
 
 </script>
 

@@ -18,14 +18,11 @@ body {
 
 .container {
   margin: auto;
-  position: relative;
 
 }
 
 section {
-  &:not(.full-width) {
-    padding: 0 20px;
-  }
+  padding: 0 20px;
 }
 
 .rect-outer {
