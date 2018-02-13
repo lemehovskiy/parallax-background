@@ -6,8 +6,27 @@ import {TweenLite, CSSPlugin} from "gsap";
 
 require("../build/parallax_background");
 
+require('lem_youtube');
+
+require('video_background');
+
+
 
 $(document).ready(function () {
+
+    $(window).on('ytApiReady.ly', function () {
+        $('.youtube-video').lemYoutube({
+            videoId: "yu_bA7jzX5Y"
+        });
+
+        $('.youtube-video-background').videoBackground();
+    });
+
+    $('.youtube-video').on('onReady.ly', function () {
+        $(this).lemYoutube('ytPlayer', 'playVideo');
+        $(this).lemYoutube('ytPlayer', 'mute');
+    });
+
 
     $('.parallax-demo-1').parallaxBackground({
         event: 'scroll',
