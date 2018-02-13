@@ -119,8 +119,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             key: 'init',
             value: function init() {
 
-                var self = this;
-
                 if (typeof TweenLite === 'undefined') {
                     console.warn('TweenMax or TweenLite library is required... https://greensock.com/tweenlite');
                     return;
@@ -131,30 +129,51 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return;
                 }
 
-                self.deviceOrientation = '';
+                var self = this;
 
+                self.device_orientation = '';
                 self.viewport_top = 0;
                 self.viewport_bottom = 0;
 
+                self.set_elements_styles();
+
                 $(window).on('load resize', function () {
-
-                    self.ww = window.innerWidth;
-                    self.wh = window.innerHeight;
-
-                    if (self.ww > self.wh) {
-                        self.deviceOrientation = 'landscape';
-                    } else {
-                        self.deviceOrientation = 'portrait';
-                    }
+                    self.update_window_size();
+                    self.update_orientation();
                 });
 
                 if (self.settings.event == 'scroll') {
                     $(window).on('load scroll', function () {
-
-                        self.viewport_top = $(window).scrollTop();
-                        self.viewport_bottom = self.viewport_top + self.wh;
+                        self.update_viewports();
                     });
                 }
+
+                if (self.settings.event == 'scroll') {
+                    self.event_scroll();
+                } else if (self.settings.event == 'mouse_move') {
+                    self.event_mouse_move();
+                }
+            }
+        }, {
+            key: 'update_window_size',
+            value: function update_window_size() {
+                var self = this;
+
+                self.ww = window.innerWidth;
+                self.wh = window.innerHeight;
+            }
+        }, {
+            key: 'update_viewports',
+            value: function update_viewports() {
+                var self = this;
+
+                self.viewport_top = $(window).scrollTop();
+                self.viewport_bottom = self.viewport_top + self.wh;
+            }
+        }, {
+            key: 'set_elements_styles',
+            value: function set_elements_styles() {
+                var self = this;
 
                 self.$element.css({
                     'overflow': 'hidden'
@@ -173,13 +192,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     TweenLite.set(self.$element, { perspective: self.settings.rotate_perspective });
                     TweenLite.set(self.$element_inner, { transformStyle: "preserve-3d" });
                 }
+            }
+        }, {
+            key: 'update_orientation',
+            value: function update_orientation() {
+                var self = this;
 
-                if (self.settings.event == 'scroll') {
-
-                    self.event_scroll();
-                } else if (self.settings.event == 'mouse_move') {
-
-                    self.event_mouse_move();
+                if (self.ww > self.wh) {
+                    self.device_orientation = 'landscape';
+                } else {
+                    self.device_orientation = 'portrait';
                 }
             }
         }, {
@@ -220,7 +242,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                     //TODO Organize orientation statement
 
-                    if (self.deviceOrientation == 'landscape') {
+                    if (self.device_orientation == 'landscape') {
                         x = self.shift / self.coef / 100 * betaInPercent;
                         y = self.shift / self.coef / 100 * gamaInPercent;
                     } else {

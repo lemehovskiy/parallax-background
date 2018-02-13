@@ -44,8 +44,6 @@
 
         init() {
 
-            let self = this;
-
             if (typeof TweenLite === 'undefined') {
                 console.warn('TweenMax or TweenLite library is required... https://greensock.com/tweenlite');
                 return;
@@ -56,44 +54,55 @@
                 return;
             }
 
-
-            self.deviceOrientation = '';
-
+            let self = this;
+            
+            self.device_orientation = '';
             self.viewport_top = 0;
             self.viewport_bottom = 0;
-
-
+            
+            self.set_elements_styles();
+            
             $(window).on('load resize', function () {
-
-                self.ww = window.innerWidth;
-                self.wh = window.innerHeight;
-
-                if (self.ww > self.wh) {
-                    self.deviceOrientation = 'landscape'
-                }
-
-                else {
-                    self.deviceOrientation = 'portrait'
-                }
-
+                self.update_window_size();
+                self.update_orientation();
             });
-
-
+            
             if (self.settings.event == 'scroll') {
                 $(window).on('load scroll', function () {
-
-                    self.viewport_top = $(window).scrollTop();
-                    self.viewport_bottom = self.viewport_top + self.wh;
-
+                    self.update_viewports();
                 });
             }
 
+            if (self.settings.event == 'scroll') {
+                self.event_scroll()
+            }
 
+            else if (self.settings.event == 'mouse_move') {
+                self.event_mouse_move();
+            }
 
+        }
+        
+        update_window_size(){
+            let self = this;
+
+            self.ww = window.innerWidth;
+            self.wh = window.innerHeight;
+        }
+        
+        update_viewports(){
+            let self = this;
+            
+            self.viewport_top = $(window).scrollTop();
+            self.viewport_bottom = self.viewport_top + self.wh;
+        }
+        
+        set_elements_styles(){
+            let self = this;
+            
             self.$element.css({
                 'overflow': 'hidden'
             });
-
 
             self.$element_inner.css({
                 'top': -self.settings.zoom / 2 + '%',
@@ -104,24 +113,22 @@
 
             });
 
-
             if (self.settings.animation_type == 'rotate') {
                 TweenLite.set(self.$element, {perspective: self.settings.rotate_perspective});
                 TweenLite.set(self.$element_inner, {transformStyle: "preserve-3d"});
             }
-
-
-            if (self.settings.event == 'scroll') {
-
-                self.event_scroll()
+        }
+        
+        update_orientation(){
+            let self = this;
+            
+            if (self.ww > self.wh) {
+                self.device_orientation = 'landscape'
             }
 
-            else if (self.settings.event == 'mouse_move') {
-
-                self.event_mouse_move();
-
+            else {
+                self.device_orientation = 'portrait'
             }
-
         }
 
         event_mouse_move(){
@@ -163,7 +170,7 @@
 
                 //TODO Organize orientation statement
 
-                if (self.deviceOrientation == 'landscape') {
+                if (self.device_orientation == 'landscape') {
                     x = self.shift / self.coef / 100 * betaInPercent;
                     y = self.shift / self.coef / 100 * gamaInPercent;
                 }
