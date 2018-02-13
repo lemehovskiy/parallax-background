@@ -197,6 +197,11 @@ section {
   color: white;
 }
 
+.section-intro .container {
+  position: relative;
+  z-index: 2;
+}
+
 .section-intro:before {
   content: '';
   position: absolute;

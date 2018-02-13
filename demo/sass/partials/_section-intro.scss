@@ -6,6 +6,11 @@
   align-items: center;
   color: white;
 
+  .container {
+    position: relative;
+    z-index: 2;
+  }
+
   &:before {
     content: '';
     position: absolute;

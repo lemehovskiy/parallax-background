@@ -112,6 +112,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             self.coef = self.inner_size / 100;
             self.shift = self.settings.zoom / 2 / self.coef;
 
+            self.device_orientation = '';
+            self.viewport_top = 0;
+            self.viewport_bottom = 0;
+
             self.init();
         }
 
@@ -130,10 +134,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
 
                 var self = this;
-
-                self.device_orientation = '';
-                self.viewport_top = 0;
-                self.viewport_bottom = 0;
 
                 self.set_elements_styles();
 
