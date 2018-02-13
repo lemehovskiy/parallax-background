@@ -1,6 +1,6 @@
 {
   "name": "parallax_background",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "jQuery parallax background plugin",
   "main": "build/parallax_background.js",
   "dependencies": {
