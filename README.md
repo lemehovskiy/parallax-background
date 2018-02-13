@@ -3,7 +3,7 @@ parallaxBackground
 
 ### Demo
 
-[https://lemehovskiy.github.io/parallaxBackground/demo](https://lemehovskiy.github.io/parallaxBackground/demo/)
+[https://lemehovskiy.github.io/parallax_background/demo](https://lemehovskiy.github.io/parallax_background/demo/)
 
 
 ### Package Managers
