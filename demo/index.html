@@ -16,10 +16,7 @@
 <body>
 
 
-<section class="section-intro full-width parallax-demo-1">
-    <div class="back-img parallax-inner"
-         style="background-image: url('imgs/hs_err_pid689.jpg')">
-    </div>
+<section class="section-intro full-width back-img" style="background-image: url('imgs/sample-background-1.jpg')">
 
     <div class="container">
         <div class="content-wrap">
@@ -94,20 +91,22 @@
 
             <li class="feature-item">
                 <div class="content-col">
-                    <h3 class="main-ttl-3">
+                    <div class="title main-ttl-3">
                         Basic usage
-                    </h3>
-                    <div class="desc">
-                      <pre>
-                          <code class="language-javascript">
-                              $('.parallax-demo-1').parallaxBackground();
-                          </code>
-                      </pre>
+                    </div>
+                    <div class="desc main-p-1">
+                         <pre>
+                             <code class="language-javascript">
+                                 $('.parallax-demo-1').parallaxBackground();
+                             </code>
+                        </pre>
                     </div>
                 </div>
                 <div class="img-col">
                     <div class="img-wrap parallax-demo-1">
-                        <div class="parallax-inner youtube-video youtube-video-background">
+                        <div class="parallax-inner back-img"
+                             style="background-image: url('imgs/sample-background-2.jpg')">
+
                         </div>
                     </div>
                 </div>
@@ -133,7 +132,7 @@
                 <div class="img-col">
                     <div class="img-wrap parallax-demo-2">
                         <div class="parallax-inner back-img"
-                             style="background-image: url('imgs/pexels-photo-534327.jpg')">
+                             style="background-image: url('imgs/sample-background-3.jpg')">
 
                         </div>
                     </div>
@@ -160,7 +159,7 @@
                 <div class="img-col hover-me">
                     <div class="img-wrap parallax-demo-3">
                         <div class="parallax-inner back-img"
-                             style="background-image: url('imgs/pexels-photo-534351.jpg')">
+                             style="background-image: url('imgs/sample-background-4.jpg')">
 
                         </div>
                     </div>
@@ -170,7 +169,7 @@
             <li class="feature-item">
                 <div class="content-col">
                     <div class="title main-ttl-3">
-                        Event - mouse move
+                        Event - mouse move with rotate animation
                     </div>
                     <div class="desc main-p-1">
                            <pre>
@@ -189,8 +188,35 @@
                 <div class="img-col hover-me">
                     <div class="img-wrap parallax-demo-4">
                         <div class="parallax-inner back-img"
-                             style="background-image: url('imgs/pexels-photo-539711.jpg')">
+                             style="background-image: url('imgs/sample-background-1.jpg')">
 
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="feature-item">
+                <div class="content-col">
+                    <h3 class="main-ttl-3">
+                        Alternative background type
+                    </h3>
+                    <div class="desc">
+                      <pre>
+                          <code class="language-javascript">
+                              $('.parallax-demo-5').parallaxBackground({
+                                  event: 'mouse_move',
+                                  animation_type: 'rotate',
+                                  animate_duration: 1,
+                                  zoom: 70,
+                                  rotate_perspective: 1000
+                              });
+                          </code>
+                      </pre>
+                    </div>
+                </div>
+                <div class="img-col hover-me">
+                    <div class="img-wrap parallax-demo-5">
+                        <div class="parallax-inner youtube-video youtube-video-background">
                         </div>
                     </div>
                 </div>

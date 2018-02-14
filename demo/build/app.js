@@ -7146,6 +7146,14 @@ $(document).ready(function () {
         zoom: 70,
         rotate_perspective: 1000
     });
+
+    $('.parallax-demo-5').parallaxBackground({
+        event: 'mouse_move',
+        animation_type: 'rotate',
+        animate_duration: 1,
+        zoom: 70,
+        rotate_perspective: 1000
+    });
 });
 
 /***/ }),
