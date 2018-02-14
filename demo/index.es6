@@ -11,6 +11,10 @@ require('lem_youtube');
 require('video_background');
 
 
+var Prism = require('prismjs');
+var Normalizer = require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace');
+require('prismjs/themes/prism.css');
+
 
 $(document).ready(function () {
 
@@ -28,17 +32,12 @@ $(document).ready(function () {
     });
 
 
-    $('.parallax-demo-1').parallaxBackground({
-        event: 'scroll',
-        animation_type: 'shift'
-    });
+    $('.parallax-demo-1').parallaxBackground();
 
     $('.parallax-demo-2').parallaxBackground({
-        event: 'scroll',
         animation_type: 'rotate',
         zoom: 50,
         rotate_perspective: 500
-
     });
 
     $('.parallax-demo-3').parallaxBackground({
@@ -50,16 +49,9 @@ $(document).ready(function () {
     $('.parallax-demo-4').parallaxBackground({
         event: 'mouse_move',
         animation_type: 'rotate',
-        animate_duration: 2,
-        zoom: 50
-    });
-
-    $('.parallax-demo-5').parallaxBackground({
-        event: 'scroll',
-        animation_type: 'shift',
         animate_duration: 1,
-        zoom: 30
+        zoom: 70,
+        rotate_perspective: 1000
     });
-
 
 });

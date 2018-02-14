@@ -16,6 +16,7 @@
     "lem_youtube": "^1.0.0",
     "node-sass": "^4.7.2",
     "postcss-loader": "^2.0.9",
+    "prismjs": "^1.11.0",
     "resolve-url-loader": "^2.2.1",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.1",

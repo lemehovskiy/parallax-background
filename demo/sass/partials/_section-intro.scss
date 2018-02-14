@@ -1,6 +1,6 @@
 .section-intro {
   position: relative;
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -19,13 +19,5 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.15);
-  }
-
-
-  .title {
-    font-size: 50px;
-    text-transform: uppercase;
-    font-weight: 600;
-    @include vw-font-size(600, 50);
   }
 }

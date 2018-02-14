@@ -23,113 +23,86 @@
 
     <div class="container">
         <div class="content-wrap">
-            <h3 class="title parallax-move" data-parallax-content='{"shift": 40, "duration": 3}'>
-                Lorem ipsum dolor
-            </h3>
+            <h1 class="main-ttl-1">
+                Parallax background
+            </h1>
         </div>
     </div>
 </section>
 
 
-<section class="section-features">
+<section class="section-features-list">
+    <div class="container">
+
+        <h2 class="section-title main-ttl-2">
+            Installation
+        </h2>
+        <ul class="features-list">
+            <li>
+                <div class="content-col">
+                    <div class="main-ttl-3">Include JS</div>
+                    <div class="desc">
+                      <pre class="language-markup">
+                          <code>
+                              &lt;script src="jquery.min.js">&lt;/script>
+                              &lt;script src="parallax_background.js">&lt;/script>
+                          </code>
+                      </pre>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="content-col">
+                    <div class="main-ttl-3">Set HTML</div>
+                    <div class="desc">
+                        <pre class="language-markup">
+                            <code>
+                                &lt;div class="parallax-background">
+                                    &lt;div class="parallax-inner" style="background-image: url('background-image.jpg')">
+                                    &lt;/div>
+                                &lt;/div>
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="content-col">
+                    <div class="main-ttl-3">Call the plugin</div>
+                    <div class="desc">
+                      <pre class="language-javascript">
+                          <code>
+                              $('.parallax-background').parallaxBackground();
+                          </code>
+                      </pre>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+
+<section class="section-features-blocks">
 
     <div class="container">
+
+        <h2 class="section-title main-ttl-2">
+            Demo
+        </h2>
 
         <ul class="features-list">
 
             <li class="feature-item">
                 <div class="content-col">
-                    <div class="title">
-                        Lorem ipsum
-                    </div>
+                    <h3 class="main-ttl-3">
+                        Basic usage
+                    </h3>
                     <div class="desc">
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                            beatae vitae dicta sunt explicabo.
-                        </p>
-                        <p>
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                        </p>
-                    </div>
-                </div>
-                <div class="img-col">
-                    <div class="img-wrap parallax-demo-2">
-                        <div class="parallax-inner back-img" style="background-image: url('imgs/pexels-photo-534327.jpg')">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="feature-item">
-                <div class="content-col">
-                    <div class="title">
-                        Lorem ipsum
-                    </div>
-                    <div class="desc">
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                            beatae vitae dicta sunt explicabo.
-                        </p>
-                        <p>
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                        </p>
-                    </div>
-                </div>
-                <div class="img-col">
-                    <div class="img-wrap parallax-demo-3">
-                        <div class="parallax-inner back-img" style="background-image: url('imgs/pexels-photo-534351.jpg')">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="feature-item">
-                <div class="content-col">
-                    <div class="title">
-                        Lorem ipsum
-                    </div>
-                    <div class="desc">
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                            beatae vitae dicta sunt explicabo.
-                        </p>
-                        <p>
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                        </p>
-                    </div>
-                </div>
-                <div class="img-col">
-                    <div class="img-wrap parallax-demo-4">
-                        <div class="parallax-inner back-img" style="background-image: url('imgs/pexels-photo-539711.jpg')">
-
-                        </div>
-                    </div>
-                </div>
-            </li>
-
-            <li class="feature-item">
-                <div class="content-col">
-                    <div class="title">
-                        Lorem ipsum
-                    </div>
-                    <div class="desc">
-                        <p>
-                            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque
-                            laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto
-                            beatae vitae dicta sunt explicabo.
-                        </p>
-                        <p>
-                            Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-                            odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                        </p>
+                      <pre>
+                          <code class="language-javascript">
+                              $('.parallax-demo-1').parallaxBackground();
+                          </code>
+                      </pre>
                     </div>
                 </div>
                 <div class="img-col">
@@ -140,11 +113,93 @@
                 </div>
             </li>
 
+            <li class="feature-item">
+                <div class="content-col">
+                    <div class="title main-ttl-3">
+                        Animation type - rotate
+                    </div>
+                    <div class="desc main-p-1">
+                         <pre>
+                              <code class="language-javascript">
+                                  $('.parallax-demo-2').parallaxBackground({
+                                      animation_type: 'rotate',
+                                      zoom: 50,
+                                      rotate_perspective: 500
+                                  });
+                              </code>
+                        </pre>
+                    </div>
+                </div>
+                <div class="img-col">
+                    <div class="img-wrap parallax-demo-2">
+                        <div class="parallax-inner back-img"
+                             style="background-image: url('imgs/pexels-photo-534327.jpg')">
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="feature-item">
+                <div class="content-col">
+                    <div class="title main-ttl-3">
+                        Event - mouse move
+                    </div>
+                    <div class="desc main-p-1">
+                       <pre>
+                              <code class="language-javascript">
+                                  $('.parallax-demo-3').parallaxBackground({
+                                      event: 'mouse_move',
+                                      animation_type: 'shift',
+                                      animate_duration: 2
+                                  });
+                              </code>
+                        </pre>
+                    </div>
+                </div>
+                <div class="img-col hover-me">
+                    <div class="img-wrap parallax-demo-3">
+                        <div class="parallax-inner back-img"
+                             style="background-image: url('imgs/pexels-photo-534351.jpg')">
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="feature-item">
+                <div class="content-col">
+                    <div class="title main-ttl-3">
+                        Event - mouse move
+                    </div>
+                    <div class="desc main-p-1">
+                           <pre>
+                              <code class="language-javascript">
+                                  $('.parallax-demo-4').parallaxBackground({
+                                      event: 'mouse_move',
+                                      animation_type: 'rotate',
+                                      animate_duration: 1,
+                                      zoom: 70,
+                                      rotate_perspective: 1000
+                                  });
+                              </code>
+                        </pre>
+                    </div>
+                </div>
+                <div class="img-col hover-me">
+                    <div class="img-wrap parallax-demo-4">
+                        <div class="parallax-inner back-img"
+                             style="background-image: url('imgs/pexels-photo-539711.jpg')">
+
+                        </div>
+                    </div>
+                </div>
+            </li>
+
         </ul>
     </div>
 
 </section>
-
 
 
 </body>
