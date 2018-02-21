@@ -1,7 +1,7 @@
 /*
- Version: 1.0.6
+ Version: 1.0.7
  Author: lemehovskiy
- Website: http://lemehovskiy.github.io
+ Website: https://lemehovskiy.github.io/parallax-background
  Repo: https://github.com/lemehovskiy/parallax_background
  */
 
@@ -101,7 +101,8 @@
             let self = this;
             
             self.$element.css({
-                'overflow': 'hidden'
+                'overflow': 'hidden',
+                'position': 'relative'
             });
 
             self.$element_inner.css({
