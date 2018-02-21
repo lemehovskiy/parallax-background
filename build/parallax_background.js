@@ -137,21 +137,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
                 self.set_elements_styles();
 
-                $(window).on('load resize', function () {
+                self.update_window_size();
+                self.update_orientation();
+
+                $(window).on('resize', function () {
                     self.update_window_size();
                     self.update_orientation();
                 });
 
                 if (self.settings.event == 'scroll') {
-                    $(window).on('load scroll', function () {
+                    self.update_viewports();
+
+                    $(window).on('scroll', function () {
                         self.update_viewports();
                     });
                 }
 
                 if (self.settings.event == 'scroll') {
-                    self.event_scroll();
+                    self.subscribe_scroll_event();
                 } else if (self.settings.event == 'mouse_move') {
-                    self.event_mouse_move();
+                    self.subscribe_mouse_move_event();
                 }
             }
         }, {
@@ -176,8 +181,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 var self = this;
 
                 self.$element.css({
-                    'overflow': 'hidden',
-                    'position': 'relative'
+                    'overflow': 'hidden'
                 });
 
                 self.$element_inner.css({
@@ -206,8 +210,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
         }, {
-            key: 'event_mouse_move',
-            value: function event_mouse_move() {
+            key: 'subscribe_mouse_move_event',
+            value: function subscribe_mouse_move_event() {
 
                 var self = this;
 
@@ -288,8 +292,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 });
             }
         }, {
-            key: 'event_scroll',
-            value: function event_scroll() {
+            key: 'subscribe_scroll_event',
+            value: function subscribe_scroll_event() {
 
                 var self = this;
 
@@ -300,18 +304,27 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     section_height = 0,
                     animation_length = 0;
 
-                $(window).on('load resize', function () {
+                on_resize();
+                on_resize_scroll();
 
+                $(window).on('resize', function () {
+                    on_resize();
+                });
+
+                $(window).on('scroll resize', function () {
+                    on_resize_scroll();
+                });
+
+                function on_resize() {
                     section_height = self.$element.outerHeight();
 
                     section_offset_top = self.$element.offset().top;
                     section_offset_bottom = section_offset_top + section_height;
 
                     animation_length = section_height + self.wh;
-                });
+                }
 
-                $(window).on('scroll resize load', function () {
-
+                function on_resize_scroll() {
                     if (self.viewport_bottom > section_offset_top && self.viewport_top < section_offset_bottom) {
 
                         self.$element.addClass('active');
@@ -328,7 +341,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     } else {
                         self.$element.removeClass('active');
                     }
-                });
+                }
             }
         }]);
 
