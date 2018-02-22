@@ -69,7 +69,7 @@
 
 "use strict";
 /*
- Version: 1.0.7
+ Version: 1.0.8
  Author: lemehovskiy
  Website: https://lemehovskiy.github.io/parallax-background
  Repo: https://github.com/lemehovskiy/parallax_background
