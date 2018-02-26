@@ -81,7 +81,10 @@ to initialize parallaxBackground on the element.
 Example:
 
 ```html
-<div data-parallax-background='{"duration": 3, "zoom": 30}'></div>
+<div class="parallax-background" data-parallax-background='{"duration": 3, "zoom": 30}'>
+  <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+  </div>
+</div>
 ```
 
 ### Settings
