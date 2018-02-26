@@ -3,7 +3,7 @@ parallaxBackground
 
 ### Demo
 
-[https://lemehovskiy.github.io/parallax_background/demo](https://lemehovskiy.github.io/parallax_background/demo/)
+[https://lemehovskiy.github.io/parallax-background](https://lemehovskiy.github.io/parallax-background)
 
 
 ### Package Managers
@@ -13,6 +13,76 @@ parallaxBackground
 npm install parallax_background
 ```
 
+### Installation
+
+#### Include js
+
+```html
+<script src="TweenLite.min.js"></script>
+<script src="CSSPlugin.min.js"></script>
+<script src="jquery.min.js"></script>
+<script src="parallax_background.js"></script>
+```
+
+#### Set HTML
+
+```html
+<div class="parallax-background">
+  <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+  </div>
+</div>
+```
+
+#### Call the plugin
+
+```html
+<script type="text/javascript">
+    $(document).ready(function() {
+      $('.parallax-background').parallaxBackground();
+    });
+</script>
+```
+
+#### In result
+
+```html
+<html>
+  <head>
+  <title>My website</title>
+  </head>
+  <body>
+
+  <div class="parallax-background">
+    <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+    </div>
+  </div>
+
+  <script src="TweenLite.min.js"></script>
+  <script src="CSSPlugin.min.js"></script>
+  <script src="jquery.min.js"></script>
+  <script src="parallax_background.js"></script>
+
+  <script type="text/javascript">
+      $(document).ready(function() {
+        $('.parallax-background').parallaxBackground();
+      });
+  </script>
+
+  </body>
+</html>
+```
+
+### Data Attribute Settings
+
+In parallaxBackground you can add settings using the data-parallax-background attribute. You still need to call
+$(element).parallaxBackground()
+to initialize parallaxBackground on the element.
+
+Example:
+
+```html
+<div data-parallax-background='{"duration": 3, "zoom": 30}'></div>
+```
 
 ### Settings
 
@@ -24,23 +94,6 @@ zoom | int | 20
 rotate_perspective | int | 1400
 animate_duration | int | 1
 
-Example:
-
-```html
-
-<section class="parallax-demo-1">
-    <div class="parallax-inner"
-         style="background-image: url('image.jpg')">
-    </div>
-</section>
-
-<script>
-    $('.parallax-demo-1').parallaxBackground({
-        event: 'scroll',
-        animation_type: 'shift'
-    });
-</script>
-```
 
 ### Browser support
 
