@@ -97,7 +97,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 animation_type: 'shift',
                 zoom: 20,
                 rotate_perspective: 1400,
-                animate_duration: 1
+                animate_duration: 1,
+                ignore_z_index: false,
+                gyroscope_event: true
 
             }, options);
 
@@ -158,6 +160,10 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 } else if (self.settings.event == 'mouse_move') {
                     self.subscribe_mouse_move_event();
                 }
+
+                if (self.settings.gyroscope_event) {
+                    self.subscribe_gyro_event();
+                }
             }
         }, {
             key: 'update_window_size',
@@ -210,8 +216,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                 }
             }
         }, {
-            key: 'subscribe_mouse_move_event',
-            value: function subscribe_mouse_move_event() {
+            key: 'subscribe_gyro_event',
+            value: function subscribe_gyro_event() {
 
                 var self = this;
 
@@ -258,38 +264,91 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     if (self.settings.animation_type == 'shift') {
                         TweenLite.to(self.$element_inner, self.settings.animate_duration, { x: y + '%', y: x + '%' });
                     } else if (self.settings.animation_type == 'rotate') {
-                        TweenLite.to(self.$element_inner, self.settings.animate_duration, { rotationX: -y + '%', rotationY: -x + '%' });
+                        TweenLite.to(self.$element_inner, self.settings.animate_duration, {
+                            rotationX: -y + '%',
+                            rotationY: -x + '%'
+                        });
                     }
                 }, true);
+            }
+        }, {
+            key: 'get_cursor_shift_by_element',
+            value: function get_cursor_shift_by_element($element, cursor_x, cursor_y) {
+                var self = this;
 
-                self.$element.on("mousemove", function (e) {
+                var offset = $element.offset(),
+                    sectionWidth = $element.outerWidth(),
+                    sectionHeight = $element.outerHeight(),
+                    pageX = cursor_x - offset.left - $element.width() * 0.5,
+                    pageY = cursor_y - offset.top - $element.height() * 0.5,
+                    cursorPercentPositionX = pageX / sectionWidth * 2,
+                    cursorPercentPositionY = pageY / sectionHeight * 2,
+                    x = self.shift * cursorPercentPositionX,
+                    y = self.shift * cursorPercentPositionY;
 
-                    var offset = self.$element.offset(),
-                        sectionWidth = self.$element.outerWidth(),
-                        sectionHeight = self.$element.outerHeight(),
-                        pageX = e.pageX - offset.left - self.$element.width() * 0.5,
-                        pageY = e.pageY - offset.top - self.$element.height() * 0.5,
-                        cursorPercentPositionX = pageX / sectionWidth * 2,
-                        cursorPercentPositionY = pageY / sectionHeight * 2,
-                        x = self.shift * cursorPercentPositionX,
-                        y = self.shift * cursorPercentPositionY;
+                return { x: x, y: y };
+            }
+        }, {
+            key: 'is_cursor_on_element',
+            value: function is_cursor_on_element($element, cursor_x, cursor_y) {
 
+                var offset = $element.offset();
+                var top = offset.top;
+                var left = offset.left;
+                var right = left + $element.outerWidth();
+                var bottom = top + $element.outerHeight();
+
+                return cursor_x > left && cursor_x < right && cursor_y > top && cursor_y < bottom;
+            }
+        }, {
+            key: 'subscribe_mouse_move_event',
+            value: function subscribe_mouse_move_event() {
+
+                var self = this;
+
+                if (self.settings.ignore_z_index) {
+                    var is_cursor_on_element = false;
+                    $(document).on("mousemove", function (e) {
+                        if (self.is_cursor_on_element(self.$element, e.pageX, e.pageY)) {
+                            var cursor_shift = self.get_cursor_shift_by_element(self.$element, e.pageX, e.pageY, true);
+                            animate_on_mousemove(cursor_shift.x, cursor_shift.y);
+                            is_cursor_on_element = true;
+                        } else {
+                            if (is_cursor_on_element) {
+                                animate_on_mouseleave();
+                                is_cursor_on_element = false;
+                            }
+                        }
+                    });
+                } else {
+                    self.$element.on("mousemove", function (e) {
+                        var cursor_shift = self.get_cursor_shift_by_element(self.$element, e.pageX, e.pageY, true);
+                        animate_on_mousemove(cursor_shift.x, cursor_shift.y);
+                    });
+
+                    self.$element.mouseleave(function () {
+                        animate_on_mouseleave();
+                    });
+                }
+
+                function animate_on_mouseleave() {
                     if (self.settings.animation_type == 'shift') {
-                        TweenLite.to(self.$element_inner, self.settings.animate_duration, { x: x + '%', y: y + '%' });
-                    } else if (self.settings.animation_type == 'rotate') {
-                        TweenLite.to(self.$element_inner, self.settings.animate_duration, { rotationX: y + '%', rotationY: -x + '%' });
-                    }
-                });
-
-                self.$element.mouseleave(function () {
-
-                    if (self.settings.animation_type == 'shift') {
-
                         TweenLite.to(self.$element_inner, self.settings.animate_duration, { x: '0%', y: '0%' });
                     } else if (self.settings.animation_type == 'rotate') {
                         TweenLite.to(self.$element_inner, self.settings.animate_duration, { rotationX: 0, rotationY: 0 });
                     }
-                });
+                }
+
+                function animate_on_mousemove(x, y) {
+                    if (self.settings.animation_type == 'shift') {
+                        TweenLite.to(self.$element_inner, self.settings.animate_duration, { x: x + '%', y: y + '%' });
+                    } else if (self.settings.animation_type == 'rotate') {
+                        TweenLite.to(self.$element_inner, self.settings.animate_duration, {
+                            rotationX: y + '%',
+                            rotationY: -x + '%'
+                        });
+                    }
+                }
             }
         }, {
             key: 'subscribe_scroll_event',

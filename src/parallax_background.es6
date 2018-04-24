@@ -22,7 +22,10 @@
                 animation_type: 'shift',
                 zoom: 20,
                 rotate_perspective: 1400,
-                animate_duration: 1
+                animate_duration: 1,
+                ignore_z_index: false,
+                gyroscope_event: true
+
 
             }, options);
 
@@ -59,7 +62,7 @@
             }
 
             let self = this;
-            
+
             self.set_elements_styles();
 
             self.update_window_size();
@@ -69,7 +72,7 @@
                 self.update_window_size();
                 self.update_orientation();
             });
-            
+
             if (self.settings.event == 'scroll') {
                 self.update_viewports();
 
@@ -86,25 +89,29 @@
                 self.subscribe_mouse_move_event();
             }
 
+            if (self.settings.gyroscope_event) {
+                self.subscribe_gyro_event();
+            }
+
         }
-        
-        update_window_size(){
+
+        update_window_size() {
             let self = this;
 
             self.ww = window.innerWidth;
             self.wh = window.innerHeight;
         }
-        
-        update_viewports(){
+
+        update_viewports() {
             let self = this;
-            
+
             self.viewport_top = $(window).scrollTop();
             self.viewport_bottom = self.viewport_top + self.wh;
         }
-        
-        set_elements_styles(){
+
+        set_elements_styles() {
             let self = this;
-            
+
             self.$element.css({
                 'overflow': 'hidden'
             });
@@ -123,10 +130,10 @@
                 TweenLite.set(self.$element_inner, {transformStyle: "preserve-3d"});
             }
         }
-        
-        update_orientation(){
+
+        update_orientation() {
             let self = this;
-            
+
             if (self.ww > self.wh) {
                 self.device_orientation = 'landscape'
             }
@@ -135,8 +142,8 @@
                 self.device_orientation = 'portrait'
             }
         }
-        
-        subscribe_mouse_move_event(){
+
+        subscribe_gyro_event() {
 
             let self = this;
 
@@ -191,55 +198,107 @@
                 }
 
                 else if (self.settings.animation_type == 'rotate') {
-                    TweenLite.to(self.$element_inner, self.settings.animate_duration, {rotationX: -y + '%', rotationY: -x + '%'});
+                    TweenLite.to(self.$element_inner, self.settings.animate_duration, {
+                        rotationX: -y + '%',
+                        rotationY: -x + '%'
+                    });
                 }
 
 
             }, true);
+        }
+
+        get_cursor_shift_by_element($element, cursor_x, cursor_y) {
+            let self = this;
+
+            let offset = $element.offset(),
+
+                sectionWidth = $element.outerWidth(),
+                sectionHeight = $element.outerHeight(),
+
+                pageX = cursor_x - offset.left - ($element.width() * 0.5),
+                pageY = cursor_y - offset.top - ($element.height() * 0.5),
+
+                cursorPercentPositionX = pageX / sectionWidth * 2,
+                cursorPercentPositionY = pageY / sectionHeight * 2,
+
+                x = self.shift * cursorPercentPositionX,
+                y = self.shift * cursorPercentPositionY;
+
+            return {x: x, y: y}
+        }
+
+        is_cursor_on_element($element, cursor_x, cursor_y) {
+
+            let offset = $element.offset()
+            let top = offset.top;
+            let left = offset.left;
+            let right = left + $element.outerWidth();
+            let bottom = top + $element.outerHeight();
 
 
-            self.$element.on("mousemove", function (e) {
+            return cursor_x > left && cursor_x < right && cursor_y > top && cursor_y < bottom;
 
-                let offset = self.$element.offset(),
+        }
 
-                    sectionWidth = self.$element.outerWidth(),
-                    sectionHeight = self.$element.outerHeight(),
+        subscribe_mouse_move_event() {
 
-                    pageX = e.pageX - offset.left - (self.$element.width() * 0.5),
-                    pageY = e.pageY - offset.top - (self.$element.height() * 0.5),
+            let self = this;
 
-                    cursorPercentPositionX = pageX / sectionWidth * 2,
-                    cursorPercentPositionY = pageY / sectionHeight * 2,
+            if (self.settings.ignore_z_index) {
+                let is_cursor_on_element = false;
+                $(document).on("mousemove", function (e) {
+                    if (self.is_cursor_on_element(self.$element, e.pageX, e.pageY)) {
+                        let cursor_shift = self.get_cursor_shift_by_element(self.$element, e.pageX, e.pageY, true);
+                        animate_on_mousemove(cursor_shift.x, cursor_shift.y);
+                        is_cursor_on_element = true;
+                    }
+                    else {
+                        if (is_cursor_on_element) {
+                            animate_on_mouseleave();
+                            is_cursor_on_element = false;
+                        }
+                    }
+                });
+            }
 
-                    x = self.shift * cursorPercentPositionX,
-                    y = self.shift * cursorPercentPositionY;
+            else {
+                self.$element.on("mousemove", function (e) {
+                    let cursor_shift = self.get_cursor_shift_by_element(self.$element, e.pageX, e.pageY, true);
+                    animate_on_mousemove(cursor_shift.x, cursor_shift.y);
+                });
+
+                self.$element.mouseleave(function () {
+                    animate_on_mouseleave();
+                });
+            }
 
 
+            function animate_on_mouseleave() {
                 if (self.settings.animation_type == 'shift') {
-                    TweenLite.to(self.$element_inner, self.settings.animate_duration, {x: x + '%', y: y + '%'});
-
-                }
-
-                else if (self.settings.animation_type == 'rotate') {
-                    TweenLite.to(self.$element_inner, self.settings.animate_duration, {rotationX: y + '%', rotationY: -x + '%'});
-                }
-
-            });
-
-
-            self.$element.mouseleave(function () {
-
-                if (self.settings.animation_type == 'shift') {
-
                     TweenLite.to(self.$element_inner, self.settings.animate_duration, {x: '0%', y: '0%'});
                 }
 
                 else if (self.settings.animation_type == 'rotate') {
                     TweenLite.to(self.$element_inner, self.settings.animate_duration, {rotationX: 0, rotationY: 0});
                 }
+            }
 
-            });
+            function animate_on_mousemove(x, y) {
+                if (self.settings.animation_type == 'shift') {
+                    TweenLite.to(self.$element_inner, self.settings.animate_duration, {x: x + '%', y: y + '%'});
+
+                }
+
+                else if (self.settings.animation_type == 'rotate') {
+                    TweenLite.to(self.$element_inner, self.settings.animate_duration, {
+                        rotationX: y + '%',
+                        rotationY: -x + '%'
+                    });
+                }
+            }
         }
+
 
         subscribe_scroll_event() {
 
@@ -267,7 +326,7 @@
                 on_resize_scroll();
             });
 
-            function on_resize(){
+            function on_resize() {
                 section_height = self.$element.outerHeight();
 
                 section_offset_top = self.$element.offset().top;
@@ -276,7 +335,7 @@
                 animation_length = section_height + self.wh;
             }
 
-            function on_resize_scroll(){
+            function on_resize_scroll() {
                 if (self.viewport_bottom > section_offset_top && self.viewport_top < section_offset_bottom) {
 
                     self.$element.addClass('active');
