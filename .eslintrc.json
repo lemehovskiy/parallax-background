@@ -1,0 +1,19 @@
+{
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "plugins": ["@typescript-eslint", "prettier"],
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "rules": {
+        "prettier/prettier": 1,
+        "no-unused-vars": 0,
+        "@typescript-eslint/no-unused-vars": ["error"],
+        "@typescript-eslint/no-this-alias": 0
+      }
+}

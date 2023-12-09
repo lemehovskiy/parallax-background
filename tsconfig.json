@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "noImplicitAny": true,
+      "outDir": "dist/types",
+      "module": "esnext",
+      "target": "es5",
+      "sourceMap": true,
+      "declaration": true,
+      "emitDeclarationOnly": true,
+      "lib": ["es2018", "dom"],
+      "moduleResolution": "node",
+    },
+    "include": ["src/index.ts"],
+    "exclude": ["src/lib/**/tests"],
+}

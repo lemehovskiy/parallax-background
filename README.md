@@ -5,7 +5,6 @@ parallaxBackground
 
 [https://lemehovskiy.github.io/parallax-background](https://lemehovskiy.github.io/parallax-background)
 
-
 ### Package Managers
 
 ```sh
@@ -18,17 +17,16 @@ npm install parallax_background
 #### Include js
 
 ```html
-<script src="TweenLite.min.js"></script>
-<script src="CSSPlugin.min.js"></script>
-<script src="jquery.min.js"></script>
-<script src="parallax_background.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="parallaxBackground.umd.js"></script>
 ```
 
 #### Set HTML
 
 ```html
 <div class="parallax-background">
-  <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+  <div class="parallax-inner" style="background-image: url('https://placekitten.com/1280/720')">
   </div>
 </div>
 ```
@@ -53,14 +51,13 @@ npm install parallax_background
   <body>
 
   <div class="parallax-background">
-    <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+    <div class="parallax-inner" style="background-image: url('https://placekitten.com/1280/720')">
     </div>
   </div>
 
-  <script src="TweenLite.min.js"></script>
-  <script src="CSSPlugin.min.js"></script>
-  <script src="jquery.min.js"></script>
-  <script src="parallax_background.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="parallaxBackground.umd.js"></script>
 
   <script type="text/javascript">
       $(document).ready(function() {
@@ -91,22 +88,18 @@ Example:
 
 Option | Type | Default
 --- | --- | ---
-event | string | scroll
-animation_type | string | shift
+event | SCROLL \| MOUSE | SCROLL
+animationType | SHIFT \| ROTATE | SHIFT
 zoom | int | 20
-rotate_perspective | int | 1400
-animate_duration | int | 1
-
+rotatePerspective | int | 1400
+animateDuration | int | 1
 
 ### Browser support
 
 * Chrome
 * Firefox
-* Opera
-* IE10/11
-
 
 ### Dependencies
 
-* jQuery 1.7
+* jQuery 3.1
 * Gsap

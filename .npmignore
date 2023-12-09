@@ -1,0 +1,10 @@
+/node_modules
+.husky
+.vscode
+src
+.eslintrc.json
+prettierrc.json
+tsconfig.json
+vite.config.ts
+.github
+.eslintignore

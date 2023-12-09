@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="dist/parallaxBackground.umd.js"></script>
+    <style>
+      .space {
+        height: 300px;
+        background-color: aqua;
+      }
+      .parallax {
+        position: relative;
+        height: 500px;
+      }
+      .parallax-inner {
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="space"></div>
+    <div class="space"></div>
+    <div class="parallax">
+      <div
+        class="parallax-inner"
+        style="
+          background-image: url(&quot;https://placekitten.com/1280/720&quot;);
+        "
+      ></div>
+    </div>
+    <div class="space"></div>
+    <!-- <div class="parallax">
+        <div class="parallax-inner" style="background-image: url('https://placebear.com/1280/720')">
+
+        </div>
+    </div> -->
+    <div class="space"></div>
+
+    <script>
+      $(".parallax").parallaxBackground({
+        animate_duration: 2,
+        zoom: 20,
+        event: 'MOUSE',
+        animationType: "ROTATE",
+      });
+    </script>
+  </body>
+</html>
