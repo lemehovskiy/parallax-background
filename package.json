@@ -1,11 +1,16 @@
 {
   "name": "parallax_background",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "jQuery parallax background plugin",
-  "main": "build/parallax_background.js",
-  "dependencies": {
-    "gsap": "^1.20.2",
-    "jquery": ">=1.7"
+  "types": "./dist/index.d.ts",
+  "main": "./dist/parallaxBackground.umd.js",
+  "module": "./dist/parallaxBackground.mjs",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/parallaxBackground.mjs",
+      "require": "./dist/parallaxBackground.umd.js"
+    }
   },
   "devDependencies": {
     "@lemehovskiy/scroller": "^0.2.2",
@@ -21,6 +26,10 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.6",
     "vite-plugin-dts": "^3.6.4"
+  },
+  "peerDependencies": {
+    "gsap": "^3.12.3",
+    "jquery": "^3.7.1"
   },
   "scripts": {
     "build": "tsc && vite build",
