@@ -49,6 +49,7 @@ export class ParallaxBackground {
   innerSize: number;
   coef: number;
   shift: number;
+  doubleShift: number;
   deviceOrientation: DeviceOrientationTypes | undefined;
   ww: number;
   wh: number;
@@ -76,6 +77,7 @@ export class ParallaxBackground {
     this.elementSize = [0, 0];
     this.coef = this.innerSize / 100;
     this.shift = this.settings.zoom / 2 / this.coef;
+    this.doubleShift = this.shift * 2;
 
     this.deviceOrientation = undefined;
 
@@ -198,8 +200,8 @@ export class ParallaxBackground {
   }
 
   private animate(progressY: number, progressX?: number) {
-    const y = this.shift * progressY;
-    const x = this.shift * progressX;
+    const y = -this.shift + this.doubleShift * progressY;
+    const x = -this.shift + this.doubleShift * progressX;
 
     let params: AnimationParamsType = { y: y + "%" };
     if (progressX !== undefined) {
@@ -227,7 +229,7 @@ export class ParallaxBackground {
     });
 
     this.element.addEventListener("mouseleave", () => {
-      this.animate(0, 0);
+      this.animate(0.5, 0.5);
     });
   }
 
