@@ -37,8 +37,8 @@ type OptionsType = {
 type AnimationParamsType = {
   x?: string;
   y?: string;
-  rotationX?: string;
-  rotationY?: string;
+  rotationX?: number;
+  rotationY?: number;
 };
 
 export class ParallaxBackground {
@@ -207,9 +207,9 @@ export class ParallaxBackground {
     }
 
     if (this.settings.animationType === AnimationTypes.Rotate) {
-      params = { rotationX: -y * 2 + "%" };
+      params = { rotationX: -y };
       if (progressX !== undefined) {
-        params.rotationY = x * 2 + "%";
+        params.rotationY = x;
       }
     }
 
