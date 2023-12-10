@@ -34,11 +34,6 @@ type OptionsType = {
   gyroscopeEvent: boolean;
 };
 
-type EvenMouseMoveType = {
-  pageX: number;
-  pageY: number;
-};
-
 type AnimationParamsType = {
   x?: string;
   y?: string;
@@ -47,53 +42,44 @@ type AnimationParamsType = {
 };
 
 export class ParallaxBackground {
-  $element: JQuery<HTMLElement>;
-  $elementInner: JQuery<HTMLElement>;
-  dataOptions: OptionsType;
+  element: HTMLElement;
+  elementInner: HTMLElement;
   settings: OptionsType;
+  elementSize: [number, number];
   innerSize: number;
   coef: number;
   shift: number;
   deviceOrientation: DeviceOrientationTypes | undefined;
-  viewportTop: number;
-  viewportBottom: number;
   ww: number;
   wh: number;
 
-  constructor(element: JQuery<HTMLElement>, options: Partial<OptionsType>) {
-    const self = this;
+  constructor(element: HTMLElement, options: Partial<OptionsType>) {
+    this.settings = {
+      event: EventTypes.Scroll,
+      animationType: AnimationTypes.Shift,
+      zoom: 20,
+      rotatePerspective: 1400,
+      animateDuration: 1,
+      ignoreZIndex: false,
+      gyroscopeEvent: true,
+      ...options,
+    };
 
-    //extend by function call
-    self.settings = $.extend(
-      true,
-      {
-        event: EventTypes.Scroll,
-        animationType: AnimationTypes.Shift,
-        zoom: 20,
-        rotatePerspective: 1400,
-        animateDuration: 1,
-        ignoreZIndex: false,
-        gyroscopeEvent: true,
-      },
-      options,
+    this.element = element;
+    this.elementInner = this.element.getElementsByTagName("div")[0];
+    const dataOptions = JSON.parse(
+      this.element.getAttribute("parallax-background"),
     );
+    this.settings = { ...this.settings, ...dataOptions };
 
-    self.$element = $(element);
-    self.$elementInner = self.$element.find(".parallax-inner");
+    this.innerSize = this.settings.zoom + 100;
+    this.elementSize = [0, 0];
+    this.coef = this.innerSize / 100;
+    this.shift = this.settings.zoom / 2 / this.coef;
 
-    //extend by data options
-    self.dataOptions = self.$element.data("parallax-background");
-    self.settings = $.extend(true, self.settings, self.dataOptions);
+    this.deviceOrientation = undefined;
 
-    self.innerSize = self.settings.zoom + 100;
-    self.coef = self.innerSize / 100;
-    self.shift = self.settings.zoom / 2 / self.coef;
-
-    self.deviceOrientation = undefined;
-    self.viewportTop = 0;
-    self.viewportBottom = 0;
-
-    self.init();
+    this.init();
   }
 
   private init() {
@@ -104,34 +90,25 @@ export class ParallaxBackground {
       return;
     }
 
-    const self = this;
+    this.setElementsStyles();
+    this.updateWindowSize();
+    this.updateOrientation();
+    this.updateElementSize();
 
-    self.setElementsStyles();
-
-    self.updateWindowSize();
-    self.updateOrientation();
-
-    $(window).on("resize", function () {
-      self.updateWindowSize();
-      self.updateOrientation();
+    window.addEventListener("resize", () => {
+      this.updateWindowSize();
+      this.updateOrientation();
+      this.updateElementSize();
     });
 
-    if (self.settings.event === EventTypes.Scroll) {
-      self.updateViewports();
-
-      $(window).on("scroll", function () {
-        self.updateViewports();
-      });
+    if (this.settings.event === EventTypes.Scroll) {
+      this.subscribeScrollEvent();
+    } else if (this.settings.event === EventTypes.Mouse) {
+      this.subscribeMouseMoveEvent();
     }
 
-    if (self.settings.event === EventTypes.Scroll) {
-      self.subscribeScrollEvent();
-    } else if (self.settings.event === EventTypes.Mouse) {
-      self.subscribeMouseMoveEvent();
-    }
-
-    if (self.settings.gyroscopeEvent) {
-      self.subscribeGyroEvent();
+    if (this.settings.gyroscopeEvent) {
+      this.subscribeGyroEvent();
     }
   }
 
@@ -140,29 +117,26 @@ export class ParallaxBackground {
     this.wh = window.innerHeight;
   }
 
-  private updateViewports() {
-    this.viewportTop = $(window).scrollTop() || 0;
-    this.viewportBottom = this.viewportTop + this.wh;
+  private updateElementSize() {
+    const { width, height } = this.element.getBoundingClientRect();
+    this.elementSize = [width, height];
   }
 
   private setElementsStyles() {
-    this.$element.css({
-      overflow: "hidden",
-    });
+    this.element.style["overflow"] = "hidden";
 
-    this.$elementInner.css({
-      top: -this.settings.zoom / 2 + "%",
-      left: -this.settings.zoom / 2 + "%",
-      height: this.innerSize + "%",
-      width: this.innerSize + "%",
-      position: "absolute",
-    });
+    this.elementInner.style["top"] = -this.settings.zoom / 2 + "%";
+    this.elementInner.style["left"] = -this.settings.zoom / 2 + "%";
+    this.elementInner.style["height"] = this.innerSize + "%";
+    this.elementInner.style["width"] = this.innerSize + "%";
+    this.elementInner.style["position"] = "absolute";
+    this.elementInner.style["zIndex"] = "-1";
 
     if (this.settings.animationType === AnimationTypes.Rotate) {
-      gsap.set(this.$element, {
+      gsap.set(this.element, {
         perspective: this.settings.rotatePerspective,
       });
-      gsap.set(this.$elementInner, { transformStyle: "preserve-3d" });
+      gsap.set(this.elementInner, { transformStyle: "preserve-3d" });
     }
   }
 
@@ -228,91 +202,37 @@ export class ParallaxBackground {
     const x = this.shift * progressX;
 
     let params: AnimationParamsType = { y: y + "%" };
-    if (progressX) {
+    if (progressX !== undefined) {
       params.x = x + "%";
     }
 
     if (this.settings.animationType === AnimationTypes.Rotate) {
-      params = { rotationX: -y + "%" };
-      if (progressX) {
-        params.rotationY = x + "%";
+      params = { rotationX: -y * 2 + "%" };
+      if (progressX !== undefined) {
+        params.rotationY = x * 2 + "%";
       }
     }
 
-    gsap.to(this.$elementInner, this.settings.animateDuration, params);
-  }
-
-  private getCursorShiftByElement(
-    $element: JQuery<HTMLElement>,
-    cursorX: number,
-    cursorY: number,
-  ) {
-    const offset = $element.offset(),
-      sectionWidth = $element.outerWidth(),
-      sectionHeight = $element.outerHeight(),
-      pageX = cursorX - offset.left - $element.width() * 0.5,
-      pageY = cursorY - offset.top - $element.height() * 0.5,
-      cursorPercentPositionX = (pageX / sectionWidth) * 2,
-      cursorPercentPositionY = (pageY / sectionHeight) * 2;
-
-    return { x: cursorPercentPositionX, y: cursorPercentPositionY };
-  }
-
-  private isCursorOnElement(
-    $element: JQuery<HTMLElement>,
-    cursorX: number,
-    cursorY: number,
-  ) {
-    const offset = $element.offset();
-    const top = offset.top;
-    const left = offset.left;
-    const right = left + $element.outerWidth();
-    const bottom = top + $element.outerHeight();
-
-    return (
-      cursorX > left && cursorX < right && cursorY > top && cursorY < bottom
-    );
+    gsap.to(this.elementInner, this.settings.animateDuration, params);
   }
 
   private subscribeMouseMoveEvent() {
-    const self = this;
+    this.element.addEventListener("mousemove", (e: MouseEvent) => {
+      const { offsetX, offsetY } = e;
 
-    if (self.settings.ignoreZIndex) {
-      let isCursorOnElement = false;
-      $(document).on("mousemove", function (e: EvenMouseMoveType) {
-        if (self.isCursorOnElement(self.$element, e.pageX, e.pageY)) {
-          const cursorShift = self.getCursorShiftByElement(
-            self.$element,
-            e.pageX,
-            e.pageY,
-          );
-          self.animate(cursorShift.y, cursorShift.x);
-          isCursorOnElement = true;
-        } else {
-          if (isCursorOnElement) {
-            self.animate(0, 0);
-            isCursorOnElement = false;
-          }
-        }
-      });
-    } else {
-      self.$element.on("mousemove", function (e) {
-        const cursorShift = self.getCursorShiftByElement(
-          self.$element,
-          e.pageX,
-          e.pageY,
-        );
-        self.animate(cursorShift.y, cursorShift.x);
-      });
+      const x = offsetX / this.elementSize[0];
+      const y = offsetY / this.elementSize[1];
 
-      self.$element.mouseleave(function () {
-        self.animate(0, 0);
-      });
-    }
+      this.animate(y, x);
+    });
+
+    this.element.addEventListener("mouseleave", () => {
+      this.animate(0, 0);
+    });
   }
 
   private subscribeScrollEvent() {
-    const scroller = new Scroller(this.$element[0], {
+    const scroller = new Scroller(this.element, {
       autoAdjustScrollOffset: true,
       scrollTriggerOffset: { start: 0, end: 0 },
     });

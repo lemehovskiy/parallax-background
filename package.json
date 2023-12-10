@@ -1,7 +1,7 @@
 {
   "name": "parallax_background",
   "version": "1.1.0",
-  "description": "jQuery parallax background plugin",
+  "description": "VanillaJS parallax background plugin",
   "types": "./dist/index.d.ts",
   "main": "./dist/parallaxBackground.umd.js",
   "module": "./dist/parallaxBackground.mjs",
@@ -14,7 +14,6 @@
   },
   "devDependencies": {
     "@lemehovskiy/scroller": "^0.2.2",
-    "@types/jquery": "^3.5.29",
     "@types/node": "^20.10.4",
     "@typescript-eslint/eslint-plugin": "^6.13.2",
     "@typescript-eslint/parser": "^6.13.2",
@@ -28,8 +27,7 @@
     "vite-plugin-dts": "^3.6.4"
   },
   "peerDependencies": {
-    "gsap": "^3.12.3",
-    "jquery": "^3.7.1"
+    "gsap": "^3.12.3"
   },
   "scripts": {
     "build": "tsc && vite build",
@@ -44,9 +42,7 @@
   "keywords": [
     "parallax",
     "gsap",
-    "tweenlite",
     "greensock",
-    "jquery",
     "parallax scroll",
     "parallax background",
     "animation",
