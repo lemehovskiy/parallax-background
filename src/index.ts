@@ -165,9 +165,6 @@ export default class ParallaxBackground {
         const roundedGamma = Math.round(e.gamma || 0),
           roundedBeta = Math.round(e.beta || 0);
 
-        let x = 0;
-        let y = 0;
-
         if (roundedBeta > lastBeta && rangeBeta > 0) {
           rangeBeta--;
         } else if (roundedBeta < lastBeta && rangeBeta < maxRange) {
@@ -187,14 +184,10 @@ export default class ParallaxBackground {
         const betaProgress = rangeBeta / maxRange;
 
         if (this.deviceOrientation === DeviceOrientationTypes.Landscape) {
-          x = betaProgress;
-          y = gammaProgress;
+          this.animate(gammaProgress, betaProgress);
         } else {
-          x = gammaProgress;
-          y = betaProgress;
+          this.animate(betaProgress, gammaProgress);
         }
-
-        this.animate(y, x);
       },
       true,
     );
