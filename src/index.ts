@@ -136,6 +136,7 @@ export default class ParallaxBackground {
   }
 
   private subscribeGyroEvent() {
+    let isVisible = false;
     this.updateOrientation();
 
     const maxRange = 30;
@@ -145,6 +146,14 @@ export default class ParallaxBackground {
       rangeGamma = 0,
       rangeBeta = 0;
 
+    const observer = new IntersectionObserver(
+      (e) => {
+        isVisible = e[0].isIntersecting;
+      },
+      { root: null, rootMargin: "0px" },
+    );
+    observer.observe(this.element);
+
     window.addEventListener("resize", () => {
       this.updateOrientation();
     });
@@ -152,6 +161,7 @@ export default class ParallaxBackground {
     window.addEventListener(
       "deviceorientation",
       (e) => {
+        if (!isVisible) return;
         const roundedGamma = Math.round(e.gamma || 0),
           roundedBeta = Math.round(e.beta || 0);
 
