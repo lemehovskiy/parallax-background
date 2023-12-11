@@ -143,8 +143,8 @@ export default class ParallaxBackground {
 
     let lastGamma = 0,
       lastBeta = 0,
-      rangeGamma = 0,
-      rangeBeta = 0;
+      rangeGamma = maxRange / 2,
+      rangeBeta = maxRange / 2;
 
     const observer = new IntersectionObserver(
       (e) => {
@@ -168,16 +168,16 @@ export default class ParallaxBackground {
         let x = 0;
         let y = 0;
 
-        if (roundedGamma > lastGamma && rangeGamma < maxRange) {
-          rangeGamma++;
-        } else if (roundedGamma < lastGamma && rangeGamma > 0) {
-          rangeGamma--;
+        if (roundedBeta > lastBeta && rangeBeta > 0) {
+          rangeBeta--;
+        } else if (roundedBeta < lastBeta && rangeBeta < maxRange) {
+          rangeBeta++;
         }
 
-        if (roundedBeta > lastBeta && rangeBeta < maxRange) {
-          rangeBeta++;
-        } else if (roundedBeta < lastBeta && rangeBeta > 0) {
-          rangeBeta--;
+        if (roundedGamma > lastGamma && rangeGamma > 0) {
+          rangeGamma--;
+        } else if (roundedGamma < lastGamma && rangeGamma < maxRange) {
+          rangeGamma++;
         }
 
         lastGamma = roundedGamma;
@@ -194,7 +194,7 @@ export default class ParallaxBackground {
           y = betaProgress;
         }
 
-        this.animate(-y, -x);
+        this.animate(y, x);
       },
       true,
     );
