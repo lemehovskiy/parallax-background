@@ -42,7 +42,7 @@ type AnimationParamsType = {
   rotationY?: number;
 };
 
-export class ParallaxBackground {
+export default class ParallaxBackground {
   element: HTMLElement;
   elementInner: HTMLElement;
   settings: OptionsType;
@@ -68,7 +68,7 @@ export class ParallaxBackground {
     this.element = element;
     this.elementInner = this.element.getElementsByTagName("div")[0];
     const dataOptions = JSON.parse(
-      this.element.getAttribute("parallax-background"),
+      this.element.getAttribute("data-parallax-background"),
     );
     this.settings = { ...this.settings, ...dataOptions };
 
