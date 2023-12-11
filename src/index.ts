@@ -17,6 +17,7 @@ enum AnimationTypes {
 enum EventTypes {
   Mouse = "MOUSE",
   Scroll = "SCROLL",
+  Gyro = "GYRO",
 }
 
 enum DeviceOrientationTypes {
@@ -25,7 +26,7 @@ enum DeviceOrientationTypes {
 }
 
 type OptionsType = {
-  event: EventTypes.Scroll;
+  events: Array<EventTypes>;
   animationType: AnimationTypes;
   zoom: number;
   rotatePerspective: number;
@@ -51,12 +52,10 @@ export class ParallaxBackground {
   shift: number;
   doubleShift: number;
   deviceOrientation: DeviceOrientationTypes | undefined;
-  ww: number;
-  wh: number;
 
   constructor(element: HTMLElement, options: Partial<OptionsType>) {
     this.settings = {
-      event: EventTypes.Scroll,
+      events: [EventTypes.Scroll],
       animationType: AnimationTypes.Shift,
       zoom: 20,
       rotatePerspective: 1400,
@@ -93,30 +92,16 @@ export class ParallaxBackground {
     }
 
     this.setElementsStyles();
-    this.updateWindowSize();
-    this.updateOrientation();
-    this.updateElementSize();
 
-    window.addEventListener("resize", () => {
-      this.updateWindowSize();
-      this.updateOrientation();
-      this.updateElementSize();
+    new Set(this.settings.events).forEach((event) => {
+      if (event === EventTypes.Scroll) {
+        this.subscribeScrollEvent();
+      } else if (event === EventTypes.Mouse) {
+        this.subscribeMouseMoveEvent();
+      } else if (event === EventTypes.Gyro) {
+        this.subscribeGyroEvent();
+      }
     });
-
-    if (this.settings.event === EventTypes.Scroll) {
-      this.subscribeScrollEvent();
-    } else if (this.settings.event === EventTypes.Mouse) {
-      this.subscribeMouseMoveEvent();
-    }
-
-    if (this.settings.gyroscopeEvent) {
-      this.subscribeGyroEvent();
-    }
-  }
-
-  private updateWindowSize() {
-    this.ww = window.innerWidth;
-    this.wh = window.innerHeight;
   }
 
   private updateElementSize() {
@@ -143,7 +128,7 @@ export class ParallaxBackground {
   }
 
   private updateOrientation() {
-    if (this.ww > this.wh) {
+    if (window.innerWidth > window.innerHeight) {
       this.deviceOrientation = DeviceOrientationTypes.Landscape;
     } else {
       this.deviceOrientation = DeviceOrientationTypes.Portrait;
@@ -151,12 +136,18 @@ export class ParallaxBackground {
   }
 
   private subscribeGyroEvent() {
+    this.updateOrientation();
+
     const maxRange = 30;
 
     let lastGamma = 0,
       lastBeta = 0,
       rangeGamma = 0,
       rangeBeta = 0;
+
+    window.addEventListener("resize", () => {
+      this.updateOrientation();
+    });
 
     window.addEventListener(
       "deviceorientation",
@@ -219,13 +210,20 @@ export class ParallaxBackground {
   }
 
   private subscribeMouseMoveEvent() {
+    this.updateElementSize();
+
+    window.addEventListener("resize", () => {
+      this.updateElementSize();
+    });
+
     this.element.addEventListener("mousemove", (e: MouseEvent) => {
-      const { offsetX, offsetY } = e;
+      const { clientY, clientX } = e;
+      const { x, y } = this.element.getBoundingClientRect();
 
-      const x = offsetX / this.elementSize[0];
-      const y = offsetY / this.elementSize[1];
+      const yProgress = (clientY - y) / this.elementSize[1];
+      const xProgress = (clientX - x) / this.elementSize[0];
 
-      this.animate(y, x);
+      this.animate(yProgress, xProgress);
     });
 
     this.element.addEventListener("mouseleave", () => {
