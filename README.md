@@ -1,6 +1,15 @@
 parallaxBackground
 -------
 
+Create captivating parallax backgrounds effortlessly with the ParallaxBackground plugin. This lightweight Vanilla JavaScript plugin, powered by GSAP animation, supports Scroll, Mouse Move, and Gyroscope events. Choose from Rotate or Shifting animations, and easily configure zoom and animation duration for a personalized touch.
+
+Features:
+
+- Vanilla JavaScript and GSAP powered
+- Scroll, Mouse Move, Gyroscope events
+- Rotate or Shifting animations
+- Customizable zoom and animation duration
+
 ### Demo
 
 [https://lemehovskiy.github.io/parallax-background](https://lemehovskiy.github.io/parallax-background)
@@ -18,7 +27,6 @@ npm install parallax_background
 
 ```html
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="parallaxBackground.umd.js"></script>
 ```
 
@@ -35,9 +43,12 @@ npm install parallax_background
 
 ```html
 <script type="text/javascript">
-    $(document).ready(function() {
-      $('.parallax-background').parallaxBackground();
-    });
+      //Initialize with jQuery
+      $(document).ready(function() {
+        $('.parallax-background').parallaxBackground();
+      });
+      //Initialize with Vanilla JavaScript
+      new ParallaxBackground(document.querySelector(".parallax"));
 </script>
 ```
 
@@ -56,13 +67,17 @@ npm install parallax_background
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  //optional for jQuery initialize
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="parallaxBackground.umd.js"></script>
 
   <script type="text/javascript">
+      //Initialize with jQuery
       $(document).ready(function() {
         $('.parallax-background').parallaxBackground();
       });
+      //Initialize with Vanilla JavaScript
+      new ParallaxBackground(document.querySelector(".parallax"));
   </script>
 
   </body>
@@ -72,7 +87,7 @@ npm install parallax_background
 ### Data Attribute Settings
 
 In parallaxBackground you can add settings using the data-parallax-background attribute. You still need to call
-$(element).parallaxBackground()
+new ParallaxBackground(selector)
 to initialize parallaxBackground on the element.
 
 Example:
@@ -88,7 +103,7 @@ Example:
 
 Option | Type | Default
 --- | --- | ---
-event | SCROLL \| MOUSE | SCROLL
+events | [SCROLL, MOUSE, GYRO] | [SCROLL]
 animationType | SHIFT \| ROTATE | SHIFT
 zoom | int | 20
 rotatePerspective | int | 1400
@@ -101,5 +116,4 @@ animateDuration | int | 1
 
 ### Dependencies
 
-* jQuery 3.1
-* Gsap
+* GSAP animation library
