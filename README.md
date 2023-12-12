@@ -43,12 +43,12 @@ npm install parallax_background
 
 ```html
 <script type="text/javascript">
+      //Initialize with Vanilla JavaScript
+      new ParallaxBackground(document.querySelector(".parallax-background"));
       //Initialize with jQuery
       $(document).ready(function() {
         $('.parallax-background').parallaxBackground();
       });
-      //Initialize with Vanilla JavaScript
-      new ParallaxBackground(document.querySelector(".parallax"));
 </script>
 ```
 
@@ -72,12 +72,12 @@ npm install parallax_background
   <script src="parallaxBackground.umd.js"></script>
 
   <script type="text/javascript">
-      //Initialize with jQuery
+      //Initialize with Vanilla JavaScript
+      new ParallaxBackground(document.querySelector(".parallax-background"));
+       //Initialize with jQuery
       $(document).ready(function() {
         $('.parallax-background').parallaxBackground();
       });
-      //Initialize with Vanilla JavaScript
-      new ParallaxBackground(document.querySelector(".parallax"));
   </script>
 
   </body>
