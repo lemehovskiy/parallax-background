@@ -9,7 +9,6 @@ export default defineConfig({
       name: "ParallaxBackground",
       fileName: "parallaxBackground",
     },
-    watch: {},
   },
   plugins: [dts()],
 });
