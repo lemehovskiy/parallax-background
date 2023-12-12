@@ -1,14 +1,14 @@
-parallaxBackground
+parallax-background
 -------
 
 Create captivating parallax backgrounds effortlessly with the ParallaxBackground plugin. This lightweight Vanilla JavaScript plugin, powered by GSAP animation, supports Scroll, Mouse Move, and Gyroscope events. Choose from Rotate or Shifting animations, and easily configure zoom and animation duration for a personalized touch.
 
 Features:
 
-- Vanilla JavaScript and GSAP powered
-- Scroll, Mouse Move, Gyroscope events
-- Rotate or Shifting animations
-- Customizable zoom and animation duration
+* Vanilla JavaScript and GSAP powered
+* Scroll, Mouse Move, Gyroscope events
+* Rotate or Shifting animations
+* Customizable zoom and animation duration
 
 ### Demo
 
@@ -86,9 +86,9 @@ npm install parallax_background
 
 ### Data Attribute Settings
 
-In parallaxBackground you can add settings using the data-parallax-background attribute. You still need to call
+In parallax-background you can add settings using the data-parallax-background attribute. You still need to call
 new ParallaxBackground(selector)
-to initialize parallaxBackground on the element.
+to initialize parallax-background on the element.
 
 Example:
 
@@ -116,4 +116,12 @@ animateDuration | int | 1
 
 ### Dependencies
 
-* GSAP animation library
+* GSAP animation library (Version 3.10.4)
+
+## Contributing
+
+If you'd like to get involved, please consider opening an issue or submitting a pull request. Your input is highly valued, and I'm enthusiastic about collaborating to enhance this tool.
+
+## License
+
+parallax-background is released under the MIT License. See the [LICENSE](LICENSE) file for comprehensive details regarding the terms and conditions of use.
