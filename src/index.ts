@@ -246,26 +246,24 @@ export default class ParallaxBackground {
   }
 }
 
-(function ($) {
-  $.fn.parallaxBackground = function (
-    ...params: [Partial<OptionsType>] | Array<string>
-  ) {
-    const opt = params[0];
-    const args = Array.prototype.slice.call(params, 1);
-    const length = this.length;
-    let ret = undefined;
-    for (let i = 0; i < length; i++) {
-      if (typeof opt === "object" || typeof opt === "undefined") {
-        this[i].parallaxBackground = new ParallaxBackground(this[i], opt);
-      } else {
-        // eslint-disable-next-line prefer-spread
-        ret = this[i].parallaxBackground[opt].apply(
-          this[i].parallaxBackground,
-          args,
-        );
-      }
-      if (typeof ret !== "undefined") return ret;
+$.fn.parallaxBackground = function (
+  ...params: [Partial<OptionsType>] | Array<string>
+) {
+  const opt = params[0];
+  const args = Array.prototype.slice.call(params, 1);
+  const length = this.length;
+  let ret = undefined;
+  for (let i = 0; i < length; i++) {
+    if (typeof opt === "object" || typeof opt === "undefined") {
+      this[i].parallaxBackground = new ParallaxBackground(this[i], opt);
+    } else {
+      // eslint-disable-next-line prefer-spread
+      ret = this[i].parallaxBackground[opt].apply(
+        this[i].parallaxBackground,
+        args,
+      );
     }
-    return this;
-  };
-})(jQuery);
+    if (typeof ret !== "undefined") return ret;
+  }
+  return this;
+};
