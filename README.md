@@ -1,10 +1,18 @@
-parallaxBackground
+parallax-background
 -------
+
+Create captivating parallax backgrounds effortlessly with the ParallaxBackground plugin. This lightweight Vanilla JavaScript plugin, powered by GSAP animation, supports Scroll, Mouse Move, and Gyroscope events. Choose from Rotate or Shifting animations, and easily configure zoom and animation duration for a personalized touch.
+
+Features:
+
+* Vanilla JavaScript and GSAP powered
+* Scroll, Mouse Move, Gyroscope events
+* Rotate or Shifting animations
+* Customizable zoom and animation duration
 
 ### Demo
 
 [https://lemehovskiy.github.io/parallax-background](https://lemehovskiy.github.io/parallax-background)
-
 
 ### Package Managers
 
@@ -18,17 +26,15 @@ npm install parallax_background
 #### Include js
 
 ```html
-<script src="TweenLite.min.js"></script>
-<script src="CSSPlugin.min.js"></script>
-<script src="jquery.min.js"></script>
-<script src="parallax_background.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+<script src="parallaxBackground.umd.js"></script>
 ```
 
 #### Set HTML
 
 ```html
 <div class="parallax-background">
-  <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+  <div class="parallax-inner" style="background-image: url('https://placekitten.com/1280/720')">
   </div>
 </div>
 ```
@@ -37,9 +43,12 @@ npm install parallax_background
 
 ```html
 <script type="text/javascript">
-    $(document).ready(function() {
-      $('.parallax-background').parallaxBackground();
-    });
+      //Initialize with jQuery
+      $(document).ready(function() {
+        $('.parallax-background').parallaxBackground();
+      });
+      //Initialize with Vanilla JavaScript
+      new ParallaxBackground(document.querySelector(".parallax"));
 </script>
 ```
 
@@ -53,19 +62,22 @@ npm install parallax_background
   <body>
 
   <div class="parallax-background">
-    <div class="parallax-inner" style="background-image: url('background-image.jpg')">
+    <div class="parallax-inner" style="background-image: url('https://placekitten.com/1280/720')">
     </div>
   </div>
 
-  <script src="TweenLite.min.js"></script>
-  <script src="CSSPlugin.min.js"></script>
-  <script src="jquery.min.js"></script>
-  <script src="parallax_background.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.4/gsap.min.js"></script>
+  //optional for jQuery initialize
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="parallaxBackground.umd.js"></script>
 
   <script type="text/javascript">
+      //Initialize with jQuery
       $(document).ready(function() {
         $('.parallax-background').parallaxBackground();
       });
+      //Initialize with Vanilla JavaScript
+      new ParallaxBackground(document.querySelector(".parallax"));
   </script>
 
   </body>
@@ -74,9 +86,9 @@ npm install parallax_background
 
 ### Data Attribute Settings
 
-In parallaxBackground you can add settings using the data-parallax-background attribute. You still need to call
-$(element).parallaxBackground()
-to initialize parallaxBackground on the element.
+In parallax-background you can add settings using the data-parallax-background attribute. You still need to call
+new ParallaxBackground(selector)
+to initialize parallax-background on the element.
 
 Example:
 
@@ -91,22 +103,25 @@ Example:
 
 Option | Type | Default
 --- | --- | ---
-event | string | scroll
-animation_type | string | shift
+events | [SCROLL, MOUSE, GYRO] | [SCROLL]
+animationType | SHIFT \| ROTATE | SHIFT
 zoom | int | 20
-rotate_perspective | int | 1400
-animate_duration | int | 1
-
+rotatePerspective | int | 1400
+animateDuration | int | 1
 
 ### Browser support
 
 * Chrome
 * Firefox
-* Opera
-* IE10/11
-
 
 ### Dependencies
 
-* jQuery 1.7
-* Gsap
+* GSAP animation library (Version 3.10.4)
+
+## Contributing
+
+If you'd like to get involved, please consider opening an issue or submitting a pull request. Your input is highly valued, and I'm enthusiastic about collaborating to enhance this tool.
+
+## License
+
+parallax-background is released under the MIT License. See the [LICENSE](LICENSE) file for comprehensive details regarding the terms and conditions of use.
