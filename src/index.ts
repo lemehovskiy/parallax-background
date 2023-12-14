@@ -4,6 +4,12 @@ declare global {
   }
 }
 
+declare global {
+  interface Window {
+    $: JQuery;
+  }
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let gsap: any;
 
@@ -53,7 +59,7 @@ export default class ParallaxBackground {
   doubleShift: number;
   deviceOrientation: DeviceOrientationTypes | undefined;
 
-  constructor(element: HTMLElement, options: Partial<OptionsType>) {
+  constructor(element: HTMLElement, options?: Partial<OptionsType>) {
     this.settings = {
       events: [EventTypes.Scroll],
       animationType: AnimationTypes.Shift,
@@ -237,7 +243,6 @@ export default class ParallaxBackground {
   private subscribeScrollEvent() {
     const scroller = new Scroller(this.element, {
       autoAdjustScrollOffset: true,
-      scrollTriggerOffset: { start: 0, end: 0 },
     });
 
     scroller.progressChanged.on((progress) => {
@@ -246,24 +251,26 @@ export default class ParallaxBackground {
   }
 }
 
-$.fn.parallaxBackground = function (
-  ...params: [Partial<OptionsType>] | Array<string>
-) {
-  const opt = params[0];
-  const args = Array.prototype.slice.call(params, 1);
-  const length = this.length;
-  let ret = undefined;
-  for (let i = 0; i < length; i++) {
-    if (typeof opt === "object" || typeof opt === "undefined") {
-      this[i].parallaxBackground = new ParallaxBackground(this[i], opt);
-    } else {
-      // eslint-disable-next-line prefer-spread
-      ret = this[i].parallaxBackground[opt].apply(
-        this[i].parallaxBackground,
-        args,
-      );
+if (window.$ !== undefined) {
+  $.fn.parallaxBackground = function (
+    ...params: [Partial<OptionsType>] | Array<string>
+  ) {
+    const opt = params[0];
+    const args = Array.prototype.slice.call(params, 1);
+    const length = this.length;
+    let ret = undefined;
+    for (let i = 0; i < length; i++) {
+      if (typeof opt === "object" || typeof opt === "undefined") {
+        this[i].parallaxBackground = new ParallaxBackground(this[i], opt);
+      } else {
+        // eslint-disable-next-line prefer-spread
+        ret = this[i].parallaxBackground[opt].apply(
+          this[i].parallaxBackground,
+          args,
+        );
+      }
+      if (typeof ret !== "undefined") return ret;
     }
-    if (typeof ret !== "undefined") return ret;
-  }
-  return this;
-};
+    return this;
+  };
+}
