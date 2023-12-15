@@ -12,7 +12,8 @@ Features:
 
 ### Demo
 
-[https://lemehovskiy.github.io/parallax-background](https://lemehovskiy.github.io/parallax-background)
+[Basic demo](https://codesandbox.io/p/devbox/parallax-background-basic-demo-r3qmzy)<br>
+[Events types and animation types demo](https://codesandbox.io/p/devbox/parallax-background-demo-events-animation-types-48fk64)
 
 ### Package Managers
 
