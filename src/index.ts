@@ -13,22 +13,22 @@ declare global {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let gsap: any;
 
-import Scroller from "@lemehovskiy/scroller";
+import Scroller from '@lemehovskiy/scroller';
 
 enum AnimationTypes {
-  Shift = "SHIFT",
-  Rotate = "ROTATE",
+  Shift = 'SHIFT',
+  Rotate = 'ROTATE',
 }
 
 enum EventTypes {
-  Mouse = "MOUSE",
-  Scroll = "SCROLL",
-  Gyro = "GYRO",
+  Mouse = 'MOUSE',
+  Scroll = 'SCROLL',
+  Gyro = 'GYRO',
 }
 
 enum DeviceOrientationTypes {
-  Landscape = "LANDSCAPE",
-  Portrait = "PORTRAIT",
+  Landscape = 'LANDSCAPE',
+  Portrait = 'PORTRAIT',
 }
 
 type OptionsType = {
@@ -68,9 +68,9 @@ export default class ParallaxBackground {
     };
 
     this.element = element;
-    this.elementInner = this.element.getElementsByTagName("div")[0];
+    this.elementInner = this.element.getElementsByTagName('div')[0];
     const dataOptions = JSON.parse(
-      this.element.getAttribute("data-parallax-background"),
+      this.element.getAttribute('data-parallax-background')
     );
     this.settings = { ...this.settings, ...dataOptions };
 
@@ -86,9 +86,9 @@ export default class ParallaxBackground {
   }
 
   private init() {
-    if (typeof gsap === "undefined") {
+    if (typeof gsap === 'undefined') {
       console.warn(
-        "Gsap library is required... https://gsap.com/docs/v3/Installation/",
+        'Gsap library is required... https://gsap.com/docs/v3/Installation/'
       );
       return;
     }
@@ -112,20 +112,20 @@ export default class ParallaxBackground {
   }
 
   private setElementsStyles() {
-    this.element.style["overflow"] = "hidden";
+    this.element.style['overflow'] = 'hidden';
 
-    this.elementInner.style["top"] = -this.settings.zoom / 2 + "%";
-    this.elementInner.style["left"] = -this.settings.zoom / 2 + "%";
-    this.elementInner.style["height"] = this.innerSize + "%";
-    this.elementInner.style["width"] = this.innerSize + "%";
-    this.elementInner.style["position"] = "absolute";
-    this.elementInner.style["zIndex"] = "-1";
+    this.elementInner.style['top'] = -this.settings.zoom / 2 + '%';
+    this.elementInner.style['left'] = -this.settings.zoom / 2 + '%';
+    this.elementInner.style['height'] = this.innerSize + '%';
+    this.elementInner.style['width'] = this.innerSize + '%';
+    this.elementInner.style['position'] = 'absolute';
+    this.elementInner.style['zIndex'] = '-1';
 
     if (this.settings.animationType === AnimationTypes.Rotate) {
       gsap.set(this.element, {
         perspective: this.settings.rotatePerspective,
       });
-      gsap.set(this.elementInner, { transformStyle: "preserve-3d" });
+      gsap.set(this.elementInner, { transformStyle: 'preserve-3d' });
     }
   }
 
@@ -152,16 +152,16 @@ export default class ParallaxBackground {
       (e) => {
         isVisible = e[0].isIntersecting;
       },
-      { root: null, rootMargin: "0px" },
+      { root: null, rootMargin: '0px' }
     );
     observer.observe(this.element);
 
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       this.updateOrientation();
     });
 
     window.addEventListener(
-      "deviceorientation",
+      'deviceorientation',
       (e) => {
         if (!isVisible) return;
         const roundedGamma = Math.round(e.gamma || 0),
@@ -191,7 +191,7 @@ export default class ParallaxBackground {
           this.animate(betaProgress, gammaProgress);
         }
       },
-      true,
+      true
     );
   }
 
@@ -199,9 +199,9 @@ export default class ParallaxBackground {
     const y = -this.shift + this.doubleShift * progressY;
     const x = -this.shift + this.doubleShift * progressX;
 
-    let params: AnimationParamsType = { y: y + "%" };
+    let params: AnimationParamsType = { y: y + '%' };
     if (progressX !== undefined) {
-      params.x = x + "%";
+      params.x = x + '%';
     }
 
     if (this.settings.animationType === AnimationTypes.Rotate) {
@@ -217,11 +217,11 @@ export default class ParallaxBackground {
   private subscribeMouseMoveEvent() {
     this.updateElementSize();
 
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       this.updateElementSize();
     });
 
-    this.element.addEventListener("mousemove", (e: MouseEvent) => {
+    this.element.addEventListener('mousemove', (e: MouseEvent) => {
       const { clientY, clientX } = e;
       const { x, y } = this.element.getBoundingClientRect();
 
@@ -231,7 +231,7 @@ export default class ParallaxBackground {
       this.animate(yProgress, xProgress);
     });
 
-    this.element.addEventListener("mouseleave", () => {
+    this.element.addEventListener('mouseleave', () => {
       this.animate(0.5, 0.5);
     });
   }
@@ -256,16 +256,16 @@ if (window.$ !== undefined) {
     const length = this.length;
     let ret = undefined;
     for (let i = 0; i < length; i++) {
-      if (typeof opt === "object" || typeof opt === "undefined") {
+      if (typeof opt === 'object' || typeof opt === 'undefined') {
         this[i].parallaxBackground = new ParallaxBackground(this[i], opt);
       } else {
         // eslint-disable-next-line prefer-spread
         ret = this[i].parallaxBackground[opt].apply(
           this[i].parallaxBackground,
-          args,
+          args
         );
       }
-      if (typeof ret !== "undefined") return ret;
+      if (typeof ret !== 'undefined') return ret;
     }
     return this;
   };
