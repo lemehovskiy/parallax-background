@@ -37,8 +37,6 @@ type OptionsType = {
   zoom: number;
   rotatePerspective: number;
   animateDuration: number;
-  ignoreZIndex: boolean;
-  gyroscopeEvent: boolean;
 };
 
 type AnimationParamsType = {
@@ -66,8 +64,6 @@ export default class ParallaxBackground {
       zoom: 20,
       rotatePerspective: 1400,
       animateDuration: 1,
-      ignoreZIndex: false,
-      gyroscopeEvent: true,
       ...options,
     };
 
